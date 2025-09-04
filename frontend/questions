@@ -1,1 +1,17 @@
-Do I need to add an onClick that closes the menu on mobile before navigation would be possibe
+Do I need to add an onClick that closes the menu on mobile before navigation would be possible
+Netlify bugs10:14:15 PM: Failed during stage 'building site': Build script returned non-zero exit code: 2 (https://ntl.fyi/exit-code-2)
+10:14:15 PM: src/components/Navbar.tsx(4,23): error TS2307: Cannot find module '../components/Container' or its corresponding type declarations.
+10:14:15 PM: src/pages/About.tsx(1,23): error TS2307: Cannot find module '../components/Container' or its corresponding type declarations.
+10:14:15 PM: src/pages/Home.tsx(1,23): error TS2307: Cannot find module '../components/Container' or its corresponding type declarations.
+10:14:15 PM: ​
+10:14:15 PM: "build.command" failed                                        
+10:14:15 PM: ────────────────────────────────────────────────────────────────
+10:14:15 PM: ​
+10:14:15 PM:   Error message
+10:14:15 PM:   Command failed with exit code 2: npm run build (https://ntl.fyi/exit-code-2)
+10:14:15 PM: ​
+10:14:15 PM:   Error location
+10:14:15 PM:   In Build command from Netlify app:
+10:14:15 PM:   npm run build
+10:14:15 PM: ​
+10:14:15 PM:   Resolved config
