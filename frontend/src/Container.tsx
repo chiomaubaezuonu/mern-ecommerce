@@ -4,7 +4,7 @@ interface Container {
   className?: string;
 }
 
-const Container = ({ children, className = "" }: Container) => {
+ const Container = ({ children, className = "" }: Container) => {
   return (
     <div className={`px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw] ${className}`}>
       {children}

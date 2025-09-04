@@ -1,8 +1,8 @@
-import Container from "../components/Container"
+
 
 const About = () => {
   return (
-    <Container>About</Container>
+    <div></div>
   )
 }
 
