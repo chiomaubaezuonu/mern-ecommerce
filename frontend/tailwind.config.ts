@@ -12,9 +12,10 @@ export default {
       tablet: "900px",
     },
     extend: {
-      colors: {
-        brand: "#1E40AF",
-      },
+     fontFamily: {
+      prata: ["Prata", "serif"],
+      outfit: ["Outfit", "sans-serif"]
+     }
     },
   },
   plugins: [],
