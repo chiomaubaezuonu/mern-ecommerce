@@ -1,6 +1,8 @@
 import { Link, NavLink } from "react-router-dom";
-import Container from "./container";
+
 import { useState } from "react";
+import Container from "../components/Container";
+
 
 const Navbar = () => {
   const [isMenuOpen, setisMenuOpen] = useState(false);
