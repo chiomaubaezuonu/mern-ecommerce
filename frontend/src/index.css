@@ -1,1 +1,13 @@
 @import "tailwindcss";
+body{
+    font-family: "Outfit";
+}
+.prata-regular {
+  font-family: 'Prata', serif;
+  font-weight: 400;
+  font-style: normal;
+}
+.outline-none {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+}
