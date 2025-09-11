@@ -1,6 +1,22 @@
-import "../index.css"
+import "../index.css";
 import Container from "../Container";
+import { products } from "../assets/assets";
+import { Link } from "react-router-dom";
+import Title from "../components/Title";
+import Contact from "../components/Contact";
 
+interface Products {
+  _id: string;
+  name: string;
+  description: string;
+  price: number;
+  images: string[];
+  category: string;
+  subCategory: string;
+  sizes: string[];
+  bestSeller: boolean;
+  date: number; //This should be string
+}
 const Home = () => {
   return (
     <Container>
@@ -21,7 +37,6 @@ const Home = () => {
                 Shop now
               </p>
               <p className="w-8 md:w-11 font-bold h-[0.063rem] bg-[#414141]"></p>
-                     
             </div>
           </div>
         </div>
@@ -37,15 +52,108 @@ const Home = () => {
             </p>
             <span className="flex items-center gap-1 text-gray-700 font-medium text-2xl sm:text-3xl">
               Collections
-              <p className="w-8 sm:w-12 h-[0.063rem] sm:h-[0.125rem] bg-gray-400 sm:bg-[#374151]"></p>
+              <p className="w-8 sm:w-12 h-[0.063rem] sm:h-[0.125rem] bg-gray-700 sm:bg-[#374151]"></p>
             </span>
           </div>
           <div>
-           <p className="text-xs sm:text-sm md:text-base mx-9 sm:mx-32 text-[#4B5563] text-center"> Step into a world of style with our newest collections, carefully
-            curated to bring you the best in fashion, home decor, and more.</p>
+            <p className="text-xs sm:text-sm md:text-base mx-9 sm:mx-32 text-[#4B5563] text-center">
+              {" "}
+              Step into a world of style with our newest collections, carefully
+              curated to bring you the best in fashion, home decor, and more.
+            </p>
           </div>
         </div>
       </div>
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 gap-y-6">
+        {products
+          .map((product: Products) => {
+            return (
+              <Link
+                to="/"
+                key={product._id}
+                className="flex overflow-hidden flex-col justify-between h-full text-gray-700 cursor-pointer"
+              >
+                <img
+                  className="hover:scale-110 transition ease-in-out"
+                  src={product.images[0]}
+                  alt={`${product.name}-${product.images}`}
+                />
+                <p className="text-sm pb-1 pt-3">{product.name}</p>
+                <p className="text-sm font-medium">
+                  ${product.price.toFixed(2)}
+                </p>
+              </Link>
+            );
+          })
+          .splice(0, 10)}
+      </div>
+      <div className="my-10">
+        <div className="py-8 text-center text-3xl">
+          <Title text1="Best" text2="sellers" />
+          <p className="w-3/4 text-gray-600 text-xs sm:text-sm md:text-base mx-auto">
+            Our best sellers are a curated selection of top-rated items that
+            have won over shoppers with their quality, style, and value.
+          </p>
+        </div>
+        <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-y-6">
+          {products
+            .filter((product) => product.bestSeller === true)
+            .map((product) => (
+              <Link
+                to="/"
+                key={product._id}
+                className="flex overflow-hidden flex-col justify-between h-full text-gray-700 cursor-pointer"
+              >
+                <img
+                  className="hover:scale-110 transition ease-in-out"
+                  src={product.images[0]}
+                  alt={`${product.name}-${product.images}`}
+                />
+                <p className="text-sm pb-1 pt-3">{product.name}</p>
+                <p className="text-sm font-medium">
+                  ${product.price.toFixed(2)}
+                </p>
+              </Link>
+            ))
+            .splice(0, 5)}
+        </div>
+      </div>
+      <div className="flex flex-col py-8 justify-around gap-12 text-xs text-gray-700 text-center sm:text-sm md:text-base sm:flex-row sm:gap-2 ">
+        <div className="">
+          <img
+            className="m-auto mb-3 w-12"
+            src="/images/return-icon.png"
+            alt="return"
+          />
+          <p className="font-semibold mb-2">Easy Return & Exchange Policy</p>
+          <p className="text-gray-400">
+            Easy Returns/exchanges within 10 days.
+          </p>
+        </div>
+        <div>
+          <img
+            className="m-auto mb-3 w-12"
+            src="/images/quality-icon.png"
+            alt="quality-icon"
+          />
+          <p className="font-semibold mb-2">Our Quality Policy</p>
+          <p>Trendify ensures top-quality products.</p>
+        </div>
+        <div>
+          <img
+            className="m-auto mb-3 w-12"
+            src="/images/earphone.png"
+            alt="earphone"
+          />
+          <p className="font-semibold mb-2">Best Customer Support</p>
+          <p className="text-gray-400">We support via email, phone, or chat.</p>
+        </div>
+      </div>
+      <div className="mt-10 text-center">
+        <p className="text-gray-800 font-medium text-2xl"></p>
+        <p className="mt-3 text-gray-400"></p>
+      </div>
+      <Contact />
     </Container>
   );
 };
