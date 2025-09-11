@@ -3,19 +3,18 @@ import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Copyright from "./components/Copyright";
-
-
+import Contact from "./pages/ContactPage";
 
 function App() {
   return (
     <>
-    
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-        </Routes>
-        <Copyright />
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
+      </Routes>
+      <Copyright />
     </>
   );
 }
