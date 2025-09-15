@@ -2,7 +2,7 @@ import Title from "../components/Title";
 import Container from "../Container";
 import aboutImg from "../assets/about_img.png";
 import { Link } from "react-router-dom";
-import Contact from "../components/Contact";
+import Contact from "../components/Footer";
 
 const About = () => {
   return (

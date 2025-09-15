@@ -3,7 +3,6 @@ import Container from "../Container";
 import { products } from "../assets/assets";
 import { Link } from "react-router-dom";
 import Title from "../components/Title";
-import Contact from "../components/Contact";
 
 interface Products {
   _id: string;
@@ -153,7 +152,6 @@ const Home = () => {
         <p className="text-gray-800 font-medium text-2xl"></p>
         <p className="mt-3 text-gray-400"></p>
       </div>
-      <Contact />
     </Container>
   );
 };

@@ -1,6 +1,6 @@
 import Title from "../components/Title";
 import Container from "../Container";
-import Contact from "../components/Contact";
+import Contact from "../components/Footer";
 
 const ContactPage = () => {
   return (

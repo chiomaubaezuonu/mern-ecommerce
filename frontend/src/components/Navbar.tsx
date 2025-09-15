@@ -7,7 +7,7 @@ const Navbar = () => {
   const [isMenuOpen, setisMenuOpen] = useState(false);
   return (
     <Container>
-      <div className="flex items-center py-5 justify-between font-medium">
+      <div className="flex items-center py-5 justify-between text-sm font-medium uppercase">
         <Link to="/">
           <img
             src="/images/logo.png"
@@ -16,10 +16,45 @@ const Navbar = () => {
           />
         </Link>
         <ul className="hidden gap-5 text-gray-700 sm:flex">
-          <Link to="/">Home</Link>
-          <Link to="/collection">Collection</Link>
-          <Link to="/about">About</Link>
-          <Link to="/contact">Contact</Link>
+          <NavLink to="/">
+            {({ isActive }) => (
+              <>
+                Home
+                <hr
+                  className={`w-2/4 h-[1.5px] mx-auto bg-gray-700 ${
+                    isActive ? "block" : "hidden"
+                  }`}
+                ></hr>
+              </>
+            )}
+          </NavLink>
+          <NavLink to="/collection">
+            {({ isActive }) => (
+              <>
+                Collection
+                <hr
+                  className={`w-2/4 h-[1.5px] mx-auto bg-gray-700 ${
+                    isActive ? "block" : "hidden"
+                  }`}
+                ></hr>
+              </>
+            )}
+          </NavLink>
+          <NavLink to="/about">{({ isActive }) => (
+            <>
+            About
+            <hr className={`w-2/4 bg-gray-700 mx-auto h-[0.094rem] ${isActive ? "block" : "hidden"}`}></hr>
+            </>
+          )}</NavLink>
+          <NavLink to="/contact">
+          {({ isActive }) => (
+            <>
+            Contact
+            <hr className={`w-2/4 bg-gray-700 mx-auto h-[0.094rem] ${isActive ? "block" : "hidden"}`} />
+            </>
+          )}
+          
+          </NavLink>
         </ul>
         <div className="flex gap-6 items-center">
           <Link to="#">
