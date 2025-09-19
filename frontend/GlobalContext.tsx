@@ -1,4 +1,10 @@
-import { createContext } from "react";
+import {
+  createContext,
+  FunctionComponent,
+  ReactNode,
+  useContext,
+  useState,
+} from "react";
 
 interface Products {
   name: string;
@@ -11,9 +17,30 @@ interface Products {
   bestSeller: boolean;
   date: string;
 }
+interface ContextType {
+  isDropdownOpen: boolean;
+  setIsDropdownOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  isSearchBarOpen: boolean;
+  setIsSearchBarOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+const GlobalContext = createContext<ContextType | undefined>(undefined);
 
-const GlobalContext = () => {
-  return <div>GlobalContext</div>;
+export const GlobalProvider: FunctionComponent<{ children: ReactNode }> = ({
+  children,
+}) => {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isSearchBarOpen, setIsSearchBarOpen] = useState(false)
+  return (
+    <GlobalContext.Provider value={{ isDropdownOpen, setIsDropdownOpen, isSearchBarOpen, setIsSearchBarOpen }}>
+      {children}
+    </GlobalContext.Provider>
+  );
 };
 
-export default GlobalContext;
+export const useGlobalContext = () => {
+  const context = useContext(GlobalContext);
+  if (!context) {
+    throw new Error("useGlobalContext must be used within a GlobalProvider");
+  }
+  return context;
+};

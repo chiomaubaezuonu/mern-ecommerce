@@ -2,9 +2,11 @@ import { Link, NavLink } from "react-router-dom";
 
 import { useState } from "react";
 import Container from "../Container";
+import { useGlobalContext } from "../../GlobalContext";
 
 const Navbar = () => {
   const [isMenuOpen, setisMenuOpen] = useState(false);
+  const { setIsSearchBarOpen } = useGlobalContext();
   return (
     <Container>
       <div className="flex items-center py-5 justify-between text-sm font-medium uppercase">
@@ -40,20 +42,29 @@ const Navbar = () => {
               </>
             )}
           </NavLink>
-          <NavLink to="/about">{({ isActive }) => (
-            <>
-            About
-            <hr className={`w-2/4 bg-gray-700 mx-auto h-[0.094rem] ${isActive ? "block" : "hidden"}`}></hr>
-            </>
-          )}</NavLink>
+          <NavLink to="/about">
+            {({ isActive }) => (
+              <>
+                About
+                <hr
+                  className={`w-2/4 bg-gray-700 mx-auto h-[0.094rem] ${
+                    isActive ? "block" : "hidden"
+                  }`}
+                ></hr>
+              </>
+            )}
+          </NavLink>
           <NavLink to="/contact">
-          {({ isActive }) => (
-            <>
-            Contact
-            <hr className={`w-2/4 bg-gray-700 mx-auto h-[0.094rem] ${isActive ? "block" : "hidden"}`} />
-            </>
-          )}
-          
+            {({ isActive }) => (
+              <>
+                Contact
+                <hr
+                  className={`w-2/4 bg-gray-700 mx-auto h-[0.094rem] ${
+                    isActive ? "block" : "hidden"
+                  }`}
+                />
+              </>
+            )}
           </NavLink>
         </ul>
         <div className="flex gap-6 items-center">
@@ -62,15 +73,32 @@ const Navbar = () => {
               src="/images/search.png"
               className="w-5 cursor-pointer"
               alt="search-icon"
+              onClick={() => setIsSearchBarOpen(true)}
             />
           </Link>
-          <Link to="#">
-            <img
-              src="/images/login.png"
-              className="w-5 cursor-pointer"
-              alt="login-icon"
-            />
-          </Link>
+          <div className="relative group">
+            <Link to="/signup">
+              <img
+                src="/images/login.png"
+                className="w-5 cursor-pointer"
+                alt="login-icon"
+              />
+            </Link>
+         <div className="hidden group-hover:block absolute right-0 pt-4">
+             <div className="bg-slate-100 text-gray-500 gap-2 py-3 px-5 w-36 rounded">
+                <p className="hover:text-black cursor-pointer pt-2 capitalize">
+                  Profile
+                </p>
+                <p className="hover:text-black cursor-pointer pt-2 capitalize">
+                  Orders
+                </p>
+                <p className="hover:text-black cursor-pointer pt-2 capitalize">
+                  Logout
+                </p>
+              </div>
+         </div>
+           
+          </div>
           <Link to="#" className="relative">
             <img
               src="/images/cart.png"
@@ -88,6 +116,7 @@ const Navbar = () => {
             onClick={() => setisMenuOpen(true)}
           />
         </div>
+
         <div
           className={`absolute sm:hidden top-0 right-0 bottom-0 overflow-hidden bg-white transition-all ${
             isMenuOpen ? "w-full" : "w-0"

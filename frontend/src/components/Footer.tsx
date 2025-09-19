@@ -7,7 +7,7 @@ const Footer = () => {
   return (
     <Container>
       {location.pathname !== "/collection" &&
-        location.pathname !== "/login" && (
+        location.pathname !== "/signup" && (
           <div className="mt-10 flex flex-col items-center">
             <p className="text-2xl text-gray-800 font-medium">
               Unlock 20% Off | Subscribe Today!
