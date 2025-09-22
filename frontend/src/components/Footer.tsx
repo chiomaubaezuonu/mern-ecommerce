@@ -1,13 +1,14 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, matchPath } from "react-router-dom";
 import Container from "../Container";
 
 const Footer = () => {
   const location = useLocation();
+  const isProductPage = matchPath("/product/:_id", location.pathname)
 
   return (
     <Container>
       {location.pathname !== "/collection" &&
-        location.pathname !== "/signup" && (
+        location.pathname !== "/signup" && !isProductPage && (
           <div className="mt-10 flex flex-col items-center">
             <p className="text-2xl text-gray-800 font-medium">
               Unlock 20% Off | Subscribe Today!

@@ -1,10 +1,11 @@
 import "../index.css";
 import Container from "../Container";
-import { products } from "../assets/assets";
 import { Link } from "react-router-dom";
 import Title from "../components/Title";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
-interface Products {
+export interface Products {
   _id: string;
   name: string;
   description: string;
@@ -17,6 +18,14 @@ interface Products {
   date: number; //This should be string
 }
 const Home = () => {
+  const [products, setProducts] = useState<Products[]>([]);
+  useEffect(() => {
+    axios
+      .get("https://mern-ecommerce-ngdf.onrender.com/products")
+      .then((res) => setProducts(res.data))
+      .catch((err) => console.error(err));
+  }, []);
+
   return (
     <Container>
       <div className="flex flex-col sm:flex-row border border-gray-400">
@@ -64,18 +73,19 @@ const Home = () => {
         </div>
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 gap-y-6">
-        {products
+        {products.slice(0, 10)
           .map((product: Products) => {
             return (
               <Link
-                to="/"
+                to={`/product/${product._id}`}
                 key={product._id}
                 className="flex overflow-hidden flex-col justify-between h-full text-gray-700 cursor-pointer"
               >
                 <img
                   className="hover:scale-110 transition ease-in-out"
-                  src={product.images[0]}
+                  src={product?.images[0]}
                   alt={`${product.name}-${product.images}`}
+                  
                 />
                 <p className="text-sm pb-1 pt-3">{product.name}</p>
                 <p className="text-sm font-medium">
@@ -84,7 +94,7 @@ const Home = () => {
               </Link>
             );
           })
-          .splice(0, 10)}
+          }
       </div>
       <div className="my-10">
         <div className="py-8 text-center text-3xl">
