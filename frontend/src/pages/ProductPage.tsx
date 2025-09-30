@@ -6,12 +6,26 @@ import axios from "axios";
 import star from "../assets/star_icon.png";
 import dullStar from "../assets/star_dull_icon.png";
 import Title from "../components/Title";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
+import { useGlobalContext } from "../../GlobalContext";
+import { products } from "../assets/assets";
 
+export interface CartItem extends Products {
+  quantity: number;
+}
+// toast.success("Product added to cart!");
+// toast.error("Something went wrong");
+// toast.info("This is an info message");
 const ProductPage = () => {
   const { _id } = useParams();
   const [product, setProduct] = useState<Products | null>(null);
-  const [relatedProducts, setRelatedProducts] = useState<Products[]>([]);
+  // const [relatedProducts, setRelatedProducts] = useState<Products[]>([]);
   const [mainImage, setMainImage] = useState<string | undefined>(undefined);
+
+  const { cartItems, setCartItems, products } = useGlobalContext();
+  const [selectedSize, setSelectedSize] = useState("");
 
   useEffect(() => {
     axios
@@ -24,17 +38,69 @@ const ProductPage = () => {
     product ? setMainImage(product.images[0]) : "";
   }, [product]);
 
-  useEffect(() => {
-    axios
-      .get("https://mern-ecommerce-ngdf.onrender.com/products")
-      .then((response) => setRelatedProducts(response.data))
-      .catch((err) => console.error(err));
-  }, []);
+   const addToCart = (productId: string) => {
+    if (!selectedSize) {
+      toast.warning("Please Select a Size");
+      return;
+    }
+    const alreadyInCart = cartItems.find((product) => product._id === productId);
+    if (alreadyInCart) {
+      setCartItems((prevItem) =>
+        prevItem.map((item) => {
+          return item._id === productId && item.size === selectedSize
+            ? { ...item, quantity: item.quantity + 1, size: selectedSize }
+            : item;
+        })
+      );
+      toast.info("Product updated");
+    } else if (product) {
+      setCartItems((prev) => [
+        ...prev,
+        { ...product, quantity: 1, size: selectedSize },
+      ]);
+      toast.success("Product added to cart");
+    }
+  };
 
+//    const addToCart = (productId: string) => {
+//   if (!selectedSize) {
+//     toast.warning("Please Select a Size");
+//     return;
+//   }
+
+//   // ✅ Check the CART, not the PRODUCTS list
+//   const existingItem = cartItems.find(
+//     (item) => item._id === productId && item.size === selectedSize
+//   );
+
+//   if (existingItem) {
+//     // ✅ Update quantity
+//     setCartItems((prevItems) =>
+//       prevItems.map((item) =>
+//         item._id === productId && item.size === selectedSize
+//           ? { ...item, quantity: item.quantity + 1 }
+//           : item
+//       )
+//     );
+//     toast.info("Product quantity updated");
+//   } else if (product) {
+//     // ✅ Add new item
+//     setCartItems((prevItems) => [
+//       ...prevItems,
+//       { ...product, quantity: 1, size: selectedSize },
+//     ]);
+//     toast.success("Product added to cart");
+//   }
+// };
 
   return (
     <Container>
-      <div className="transition-opacity duration-500 ease-in border-t-2 opacity-100 pt-10">
+      <ToastContainer
+        position="top-right"
+        progressClassName="toast-progress-bar"
+        autoClose={3000}
+      />
+      <div className="transition-opacity duration-500 ease-in border-t-2 border-gray-200 opacity-100 pt-10">
         <div className="flex flex-col gap-12 sm:flex-row">
           <div className="flex flex-col-reverse gap-3 sm:flex-row flex-1">
             <div className="flex sm:flex-col justify-between sm:justify-normal w-full sm:w-[18.7%]">
@@ -84,7 +150,12 @@ const ProductPage = () => {
                   return (
                     <button
                       key={size}
-                      className="px-4 py-2 border border-gray-200 rounded-md bg-gray-100"
+                      onClick={() => setSelectedSize(size)}
+                      className={`px-4 py-2 border cursor-pointer ${
+                        selectedSize === size
+                          ? "border-orange-500"
+                          : "border-gray-200"
+                      }  rounded-md bg-gray-100`}
                     >
                       {size}
                     </button>
@@ -92,9 +163,14 @@ const ProductPage = () => {
                 })}
               </div>
             </div>
-            <div className="py-3 text-white bg-black active:bg-gray-700 px-8 w-[9.7rem] text-sm">
-              ADD TO CART
-            </div>
+            {product && (
+              <button
+                onClick={() => addToCart(product._id)}
+                className="py-3 text-white bg-black active:bg-gray-700 px-8 w-[9.7rem] text-sm cursor-pointer"
+              >
+                ADD TO CART
+              </button>
+            )}
             <hr className=" mt-8 sm:w-4/5 text-gray-200" />
             <div className="flex flex-col gap-1 mt-5 text-sm text-gray-500">
               <p>Guaranteed 100% Authentic - Shop with Confidence!</p>
@@ -137,16 +213,26 @@ const ProductPage = () => {
               <Title text1="RELATED" text2="PRODUCTS" />
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 gap-y-6">
-              {relatedProducts
+              {products
                 .filter(
                   (relatedProduct) =>
                     relatedProduct.category === product?.category
                 )
                 .slice(0, 5)
                 .map((relatedProduct) => {
-                  return <Link to={`/product/${relatedProduct._id}`} className="overflow-hidden" key={relatedProduct._id}>
-                    <img src={relatedProduct.images[0]} className="transition ease-in-out hover:scale-110" alt="" />
-                  </Link>
+                  return (
+                    <Link
+                      to={`/product/${relatedProduct._id}`}
+                      className="overflow-hidden"
+                      key={relatedProduct._id}
+                    >
+                      <img
+                        src={relatedProduct.images[0]}
+                        className="transition ease-in-out hover:scale-110"
+                        alt=""
+                      />
+                    </Link>
+                  );
                 })}
             </div>
           </div>

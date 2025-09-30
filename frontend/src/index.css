@@ -1,13 +1,25 @@
 @import "tailwindcss";
-body{
-    font-family: "Outfit";
+body {
+  font-family: "Outfit";
 }
 .prata-regular {
-  font-family: 'Prata', serif;
+  font-family: "Prata", serif;
   font-weight: 400;
   font-style: normal;
 }
 .outline-none {
-    outline: 2px solid transparent;
-    outline-offset: 2px;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+.toast-progress-bar {
+  background-color: red !important; /* Set the progress bar color to red */
+  color: red;
+}
+.Toastify__progress-bar {
+  background-color: red !important; /* Ensure the progress bar itself is red */
+}
+
+
+.Toastify__toast.Toastify__toast.theme--colored.Toastify__toast--warning{
+  background-color: blue;
 }

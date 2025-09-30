@@ -7,6 +7,8 @@ import CollectionsPage from "./pages/CollectionsPage";
 import Footer from "./components/Footer";
 import SignUpPage from "./pages/SignUpPage";
 import ProductPage from "./pages/ProductPage";
+import CartPage from "./pages/CartPage";
+import PlaceOrder from "./pages/PlaceOrder";
 
 function App() {
   return (
@@ -19,6 +21,8 @@ function App() {
         <Route path="/collection" element={<CollectionsPage />} />
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/product/:_id" element={<ProductPage />} />
+        <Route path="/cart" element={<CartPage />} />
+        <Route path="place-order" element={<PlaceOrder />} />
       </Routes>
       <Footer />
     </>

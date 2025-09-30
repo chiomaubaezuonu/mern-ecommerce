@@ -6,7 +6,7 @@ import { useGlobalContext } from "../../GlobalContext";
 
 const Navbar = () => {
   const [isMenuOpen, setisMenuOpen] = useState(false);
-  const { setIsSearchBarOpen } = useGlobalContext();
+  const { setIsSearchBarOpen, cartItems } = useGlobalContext();
   return (
     <Container>
       <div className="flex items-center py-5 justify-between text-sm font-medium uppercase">
@@ -99,14 +99,14 @@ const Navbar = () => {
          </div>
            
           </div>
-          <Link to="#" className="relative">
+          <Link to="/cart" className="relative">
             <img
               src="/images/cart.png"
               className="w-5 cursor-pointer"
               alt="cart-icon"
             />
             <p className="rounded-full w-4 h-4 bg-black text-white leading-4 text-[0.5rem] text-center absolute bottom-[-0.313rem] right-[-0.313rem]">
-              1
+              {cartItems.length}
             </p>
           </Link>
           <img

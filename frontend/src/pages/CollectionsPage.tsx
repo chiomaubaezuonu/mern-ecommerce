@@ -1,11 +1,21 @@
+import { Link } from "react-router-dom";
 import { useGlobalContext } from "../../GlobalContext";
 import Container from "../Container";
-import { products } from "../assets/assets";
 import Title from "../components/Title";
+import { Products } from "./Home";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const CollectionsPage = () => {
+  const [products, setProducts] = useState<Products[]>([]);
   const { isSearchBarOpen, setIsSearchBarOpen } = useGlobalContext();
 
+  useEffect(() => {
+    axios
+      .get("https://mern-ecommerce-ngdf.onrender.com/products")
+      .then((res) => setProducts(res.data))
+      .catch((err) => console.error(err));
+  });
   return (
     <Container>
       {isSearchBarOpen && (
@@ -58,10 +68,7 @@ const CollectionsPage = () => {
           <div className="hidden sm:block gap-2 border pl-5 py-3 my-5 mt-6 border-gray-300 text-sm">
             <p className="font-medium mb-3 text-sm">TYPES</p>
             <div className="flex flex-col gap-2 text-gray-700 text-sm font-light">
-              <label
-                htmlFor=""
-                className="gap-2 flex cursor-pointer"
-              >
+              <label htmlFor="" className="gap-2 flex cursor-pointer">
                 <input type="checkbox" className="w-3" value="topwear" />
                 Topwear
               </label>
@@ -93,15 +100,24 @@ const CollectionsPage = () => {
           <div className="grid grid-cols-2 gap-4 gap-y-6 md:grid-cols-3 lg:grid-cols-4">
             {products.map((product) => {
               return (
-                <div key={product._id} className="flex flex-col cureor-pointer overflow-hidden">
-                  <img src={product.images[0]} className="tranition ease-in-out hover:scale-110" alt="product" />
-                  <p className="text-sm pt-3 pb-1 text-[#374151]">
-                    {product.name}
-                  </p>
-                  <p className="text-sm font-medium text-[#374151]">
-                    ${product.price.toFixed(2)}
-                  </p>
-                </div>
+                <Link to={`/product/${product._id}`}>
+                  <div
+                    key={product._id}
+                    className="flex flex-col cursor-pointer overflow-hidden"
+                  >
+                    <img
+                      src={product.images[0]}
+                      className="tranition ease-in-out hover:scale-110"
+                      alt="product"
+                    />
+                    <p className="text-sm pt-3 pb-1 text-[#374151]">
+                      {product.name}
+                    </p>
+                    <p className="text-sm font-medium text-[#374151]">
+                      ${product.price.toFixed(2)}
+                    </p>
+                  </div>
+                </Link>
               );
             })}
           </div>
