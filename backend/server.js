@@ -1,6 +1,7 @@
 import cors from "cors";
 import express from "express";
 import { Product } from "./Model/ProductModel.js";
+import  userRoutes   from "./Routes/userRoutes.js"
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 
@@ -9,6 +10,7 @@ dotenv.config();
 
 app.use(cors());
 app.use(express.json());
+app.use("/api/users", userRoutes)
 const PORT = process.env.PORT || 5000;
 
 const MONGO_URI = process.env.MONGO_URI;
@@ -29,7 +31,7 @@ app.post("/products", async (req, res) => {
       .status(201)
       .json({ message: "Product created successfully", product: savedProduct });
   } catch (error) {
-    console.error("Error creating invoice", error);
+    console.error("Error creating product", error);
     res;
     res
       .status(500)
