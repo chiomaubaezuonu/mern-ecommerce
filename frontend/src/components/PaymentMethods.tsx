@@ -21,11 +21,13 @@ const PaymentMethods = () => {
           </p>
         </div>
       </div>
-      <Link to="/orders" className="w-full mt-8 text-end">
-        <button className="px-16 py-3 text-sm cursor-pointer text-white bg-black active:bg-gray-800">
-          PLACE ORDER
-        </button>
-      </Link>
+      <div className="w-full mt-8 text-end">
+        <Link to="/orders">
+          <button className="px-16 py-3 text-sm cursor-pointer text-white bg-black active:bg-gray-800">
+            PLACE ORDER
+          </button>
+        </Link>
+      </div>
     </div>
   );
 };

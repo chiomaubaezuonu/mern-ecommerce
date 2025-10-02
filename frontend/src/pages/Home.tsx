@@ -15,7 +15,7 @@ export interface Products {
   subCategory: string;
   sizes: string[];
   bestSeller: boolean;
-  date: number; //This should be string
+  date: string; 
 }
 const Home = () => {
   

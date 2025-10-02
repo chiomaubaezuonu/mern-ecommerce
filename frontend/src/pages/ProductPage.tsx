@@ -56,7 +56,7 @@ const ProductPage = () => {
     } else if (product) {
       setCartItems((prev) => [
         ...prev,
-        { ...product, quantity: 1, size: selectedSize },
+        { ...product, quantity: 1, size: selectedSize, createdAt: new Date().toISOString() },
       ]);
       toast.success("Product added to cart");
     }

@@ -1,6 +1,7 @@
 @import "tailwindcss";
 body {
-  font-family: "Outfit";
+  /* font-family: "Outfit", 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
+  font-family: Outfit;
 }
 .prata-regular {
   font-family: "Prata", serif;

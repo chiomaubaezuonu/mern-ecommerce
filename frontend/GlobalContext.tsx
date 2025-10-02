@@ -18,11 +18,11 @@ interface Products {
   subCategory: string;
   sizes: string[];
   bestSeller: boolean;
-  date: number; //This should be a string
 }
 export interface CartItem extends Products {
   size: string,
   quantity: number;
+  createdAt: string
 }
 
 interface ContextType {
