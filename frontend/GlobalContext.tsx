@@ -8,7 +8,7 @@ import {
   useState,
 } from "react";
 
-interface Products {
+export interface Products {
   _id: string;
   name: string;
   description: string;

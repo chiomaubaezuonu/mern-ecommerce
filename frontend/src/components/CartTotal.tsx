@@ -4,7 +4,7 @@ import Title from "./Title";
 import { useGlobalContext } from "../../GlobalContext";
 
 const CartTotal = () => {
-  const { cartItems, subTotal } = useGlobalContext()
+  const { subTotal } = useGlobalContext()
   
   return (
     <div className="my-20 flex justify-end">
@@ -27,7 +27,7 @@ const CartTotal = () => {
             <p>Total Amount</p>
             <p>${subTotal ? (subTotal + shippingFee) .toFixed(2) : 0}</p>
           </div>
-          <Link to="/place-order" className="w-full text-end">
+          <Link to="/checkout" className="w-full text-end">
             <button className="py-3 cursor-pointer px-8 text-sm my-8 bg-black text-white active:bg-gray-700">
               PROCEED TO CHECKOUT
             </button>

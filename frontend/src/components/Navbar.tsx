@@ -90,7 +90,8 @@ const Navbar = () => {
                   Profile
                 </p>
                 <p className="hover:text-black cursor-pointer pt-2 capitalize">
-                  Orders
+                  <Link to="/orders">Orders</Link>
+
                 </p>
                 <p className="hover:text-black cursor-pointer pt-2 capitalize">
                   Logout

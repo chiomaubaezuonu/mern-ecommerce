@@ -8,14 +8,17 @@ import Footer from "./components/Footer";
 import SignUpPage from "./pages/SignUpPage";
 import ProductPage from "./pages/ProductPage";
 import CartPage from "./pages/CartPage";
-import PlaceOrder from "./pages/PlaceOrder";
 import Orders from "./pages/Orders";
 import TrackOrderPage from "./pages/TrackOrderPage";
+import Checkout from "./pages/Checkout";
+import { ToastContainer } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css"; for styling
 
 function App() {
   return (
     <>
       <Navbar />
+      <ToastContainer />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
@@ -24,7 +27,7 @@ function App() {
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/product/:_id" element={<ProductPage />} />
         <Route path="/cart" element={<CartPage />} />
-        <Route path="place-order" element={<PlaceOrder />} />
+        <Route path="checkout" element={<Checkout />} />
         <Route path="/orders" element={<Orders />} />
         <Route path="/trackorder/:_id" element={<TrackOrderPage />} />
       </Routes>

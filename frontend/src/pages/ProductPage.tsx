@@ -10,20 +10,15 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import { toast } from "react-toastify";
 import { useGlobalContext } from "../../GlobalContext";
-import { products } from "../assets/assets";
 
 export interface CartItem extends Products {
   quantity: number;
 }
-// toast.success("Product added to cart!");
-// toast.error("Something went wrong");
-// toast.info("This is an info message");
+
 const ProductPage = () => {
   const { _id } = useParams();
   const [product, setProduct] = useState<Products | null>(null);
-  // const [relatedProducts, setRelatedProducts] = useState<Products[]>([]);
   const [mainImage, setMainImage] = useState<string | undefined>(undefined);
-
   const { cartItems, setCartItems, products } = useGlobalContext();
   const [selectedSize, setSelectedSize] = useState("");
 
@@ -48,7 +43,7 @@ const ProductPage = () => {
       setCartItems((prevItem) =>
         prevItem.map((item) => {
           return item._id === productId && item.size === selectedSize
-            ? { ...item, quantity: item.quantity + 1, size: selectedSize }
+            ? { ...item, quantity: item.quantity + 1, size: selectedSize, createdAt: item.createdAt }
             : item;
         })
       );

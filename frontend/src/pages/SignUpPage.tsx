@@ -2,6 +2,8 @@ import { useState } from "react";
 import Container from "../Container";
 import axios from "axios";
 import { toast } from "react-toastify";
+import API from "../utils/Api";
+import { useNavigate } from "react-router-dom";
 
 const SignUpPage = () => {
   const [formData, setFormData] = useState({
@@ -9,7 +11,7 @@ const SignUpPage = () => {
     email: "",
     password: "",
   });
-
+const navigate = useNavigate()
   const [isLoginOpen, setisLoginOpen] = useState(false);
 
   const inputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,16 +29,47 @@ const SignUpPage = () => {
         "http://localhost:5000/api/users/signup",
         formData
       );
-      toast.success(response.data.message);
+       toast.success(response.data.message);
       console.log(response.data);
+
     } catch (error: any) {
       toast.error(error.response?.data?.message || "Signup failed");
     }
+    setFormData({
+      name: "",
+      email: "",
+      password: "",
+    });
   };
+
+
+  const submitLoginForm = async (e: React.FormEvent) => {
+    e.preventDefault()
+    const { email, password } = formData;
+    if(!email || !password){
+      toast.warning("Please fill all fields")
+      return;
+    }
+    try {
+      const { data } = await API.post("api/users/login", {email, password})
+      localStorage.setItem("token", data.token)
+      localStorage.setItem("user", JSON.stringify(data.user))
+      toast.success("Login successful!!")
+
+      if(data){
+        navigate("/")
+        
+      }
+    } catch (error: any) {
+      console.error("Login error", error)
+      toast.error(error.response?.data?.message || "Login failed")
+    }
+  };
+
 
   return (
     <Container>
-      { !isLoginOpen && (
+      {!isLoginOpen && (
         <form
           onSubmit={submitForm}
           className="flex flex-col items-center gap-4 text-gray-800 mx-auto mt-14 w-[90%] sm:max-w-96"
@@ -72,19 +105,23 @@ const SignUpPage = () => {
               Login here
             </p>
           </div>
-          <button className="bg-black text-white mt-4 px-8 py-2 font-light">
+          <button
+            type="submit"
+            className="bg-black cursor-pointer text-white mt-4 px-8 py-2 font-light"
+          >
             Sign Up
           </button>
         </form>
-      )} :
-      { isLoginOpen && (
+      )}{" "}
+      :
+      {isLoginOpen && (
         <form
-          onSubmit={submitForm}
+          onSubmit={submitLoginForm}
           className="flex flex-col items-center gap-4 text-gray-800 mx-auto mt-14 w-[90%] sm:max-w-96"
         >
           <div className="mt-10 mb-2 flex items-center gap-2">
             <p className="text-3xl prata-regular">Login</p>
-            <p className="w-8 sm:w-12 h-[1px] sm:h-[2px] bg-gray-700"></p>
+            <p className="w-8 h-[1px] sm:h-[2px] bg-gray-700"></p>
           </div>
           <input
             type="text"
@@ -106,7 +143,10 @@ const SignUpPage = () => {
               Create a new account
             </p>
           </div>
-          <button className="bg-black text-white mt-4 px-8 py-2 font-light">
+          <button
+            type="submit"
+            className="bg-black text-white mt-4 px-8 py-2 font-light"
+          >
             Sign In
           </button>
         </form>

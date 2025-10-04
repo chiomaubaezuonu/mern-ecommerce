@@ -15,11 +15,11 @@ export interface Products {
   subCategory: string;
   sizes: string[];
   bestSeller: boolean;
-  date: string; 
 }
 const Home = () => {
   
   const { products } = useGlobalContext();
+  
 
   return (
     <Container>
