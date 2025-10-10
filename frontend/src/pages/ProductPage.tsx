@@ -25,7 +25,12 @@ const ProductPage = () => {
   useEffect(() => {
     axios
       .get(`https://mern-ecommerce-ngdf.onrender.com/products/${_id}`)
-      .then((res) => setProduct(res.data.product))
+      
+      .then((res) => {
+        console.log("product", res.data)
+        setProduct(res.data.product)
+
+      })
       .catch((err) => console.error(err));
   }, [_id]);
 

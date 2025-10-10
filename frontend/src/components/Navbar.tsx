@@ -1,12 +1,30 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 
 import { useState } from "react";
 import Container from "../Container";
 import { useGlobalContext } from "../../GlobalContext";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
-  const [isMenuOpen, setisMenuOpen] = useState(false);
+  const navigate = useNavigate();
+  const [isMenuOpen, setisMenuOpen] = useState(false);  
   const { setIsSearchBarOpen, cartItems } = useGlobalContext();
+
+  const { isUserDetailOpen, setIsUserDetailOpen } = useGlobalContext();
+  const user = JSON.parse(localStorage.getItem("user") || "null");
+
+  const logoutUser = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    navigate("/");
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      toast.success("User is logged out");
+    } 
+
+  };
+
   return (
     <Container>
       <div className="flex items-center py-5 justify-between text-sm font-medium uppercase">
@@ -76,30 +94,7 @@ const Navbar = () => {
               onClick={() => setIsSearchBarOpen(true)}
             />
           </Link>
-          <div className="relative group">
-            <Link to="/signup">
-              <img
-                src="/images/login.png"
-                className="w-5 cursor-pointer"
-                alt="login-icon"
-              />
-            </Link>
-         <div className="hidden group-hover:block absolute right-0 pt-4">
-             <div className="bg-slate-100 text-gray-500 gap-2 py-3 px-5 w-36 rounded">
-                <p className="hover:text-black cursor-pointer pt-2 capitalize">
-                  Profile
-                </p>
-                <p className="hover:text-black cursor-pointer pt-2 capitalize">
-                  <Link to="/orders">Orders</Link>
 
-                </p>
-                <p className="hover:text-black cursor-pointer pt-2 capitalize">
-                  Logout
-                </p>
-              </div>
-         </div>
-           
-          </div>
           <Link to="/cart" className="relative">
             <img
               src="/images/cart.png"
@@ -110,6 +105,54 @@ const Navbar = () => {
               {cartItems.length}
             </p>
           </Link>
+          <div>
+            {user ? (
+              <div className="relative">
+                <div
+                  onClick={() => setIsUserDetailOpen(!isUserDetailOpen)}
+                  className="bg-gray-200 rounded-full w-6 flex justify-center items-center h-6 cursor-pointer"
+                >
+                  {user.email.slice(0, 1)}
+                </div>
+                {isUserDetailOpen && (
+                  <div className="absolute rounded top-10 right-0 bg-gray-200 p-4 w-[17rem]">
+                    <p className="italic mb-5 text-xs">
+                      Logged in as {user.email}
+                    </p>
+                    <button
+                      onClick={logoutUser}
+                      className="w-full cursor-pointer bg-gray-600 py-1  px-3 text-white"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="relative group">
+                <Link to="/signup">
+                  <img
+                    src="/images/login.png"
+                    className="w-5 cursor-pointer"
+                    alt="user-icon"
+                  />
+                </Link>
+                <div className="hidden group-hover:block absolute right-0 pt-4">
+                  <div className="bg-slate-100 text-gray-500 gap-2 py-3 px-5 w-36 rounded">
+                    <p className="hover:text-black cursor-pointer pt-2 capitalize">
+                      Profile
+                    </p>
+                    <p className="hover:text-black cursor-pointer pt-2 capitalize">
+                      <Link to="/orders">Orders</Link>
+                    </p>
+                    <p className="hover:text-black cursor-pointer pt-2 capitalize">
+                      Logout
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
           <img
             src="/images/menu.png"
             className="w-5 cursor-pointer sm:hidden"

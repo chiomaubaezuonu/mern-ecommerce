@@ -18,11 +18,12 @@ export interface Products {
   subCategory: string;
   sizes: string[];
   bestSeller: boolean;
+  createdAt: string;
 }
 export interface CartItem extends Products {
-  size: string,
+  size: string;
   quantity: number;
-  createdAt: string
+  createdAt: string;
 }
 
 interface ContextType {
@@ -33,9 +34,11 @@ interface ContextType {
   cartItems: CartItem[];
   setCartItems: React.Dispatch<React.SetStateAction<CartItem[]>>;
   products: Products[];
-  setProducts: React.Dispatch<React.SetStateAction<Products[]>>
-    subTotal: number;
-    setSubTotal: React.Dispatch<React.SetStateAction<number>>
+  setProducts: React.Dispatch<React.SetStateAction<Products[]>>;
+  subTotal: number;
+  setSubTotal: React.Dispatch<React.SetStateAction<number>>;
+  isUserDetailOpen: boolean;
+  setIsUserDetailOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 const GlobalContext = createContext<ContextType | undefined>(undefined);
 
@@ -43,29 +46,28 @@ export const GlobalProvider: FunctionComponent<{ children: ReactNode }> = ({
   children,
 }) => {
   const savedCartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
- 
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isSearchBarOpen, setIsSearchBarOpen] = useState(false);
   const [cartItems, setCartItems] = useState<CartItem[]>(savedCartItems);
-  const [products, setProducts] = useState<Products[]>([])
-  const [subTotal, setSubTotal] = useState(0)
+  const [products, setProducts] = useState<Products[]>([]);
+  const [subTotal, setSubTotal] = useState(0);
+  const [isUserDetailOpen, setIsUserDetailOpen] = useState(false);
 
-
- useEffect(() => {
+  useEffect(() => {
     axios
       .get("https://mern-ecommerce-ngdf.onrender.com/products")
-      .then((res) =>  { 
-        setProducts(res.data)
+      .then((res) => {
+        setProducts(res.data);
       })
       .catch((err) => console.error(err));
   }, []);
 
-
-useEffect(() => {
-setSubTotal(cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0))
-}, [cartItems])
-
+  useEffect(() => {
+    setSubTotal(
+      cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0)
+    );
+  }, [cartItems]);
 
   useEffect(() => {
     localStorage.setItem("cartItems", JSON.stringify(cartItems));
@@ -82,14 +84,16 @@ setSubTotal(cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0)
         setCartItems,
         products,
         setProducts,
-        subTotal, setSubTotal
+        subTotal,
+        setSubTotal,
+        isUserDetailOpen,
+        setIsUserDetailOpen
       }}
     >
       {children}
     </GlobalContext.Provider>
   );
 };
-
 
 export const useGlobalContext = () => {
   const context = useContext(GlobalContext);

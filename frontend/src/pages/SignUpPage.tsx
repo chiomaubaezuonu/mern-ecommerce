@@ -3,7 +3,7 @@ import Container from "../Container";
 import axios from "axios";
 import { toast } from "react-toastify";
 import API from "../utils/Api";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const SignUpPage = () => {
   const [formData, setFormData] = useState({
@@ -138,7 +138,7 @@ const navigate = useNavigate()
             name="password"
           />
           <div className="flex justify-between text-sm w-full">
-            <p>Forgot your password?</p>
+            <p className="cursor-pointer hover:text-blue-600"><Link to="/reset-password">Forgot your password?</Link></p>
             <p className="cursor-pointer" onClick={() => setisLoginOpen(false)}>
               Create a new account
             </p>

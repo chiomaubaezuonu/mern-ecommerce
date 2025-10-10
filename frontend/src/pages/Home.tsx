@@ -21,6 +21,8 @@ const Home = () => {
   const { products } = useGlobalContext();
   
 
+
+
   return (
     <Container>
       <div className="flex flex-col sm:flex-row border border-gray-400">
@@ -99,7 +101,7 @@ const Home = () => {
             .filter((product) => product.bestSeller === true)
             .map((product) => (
               <Link
-                to="/"
+                to={`/product/${product._id}`}
                 key={product._id}
                 className="flex overflow-hidden flex-col justify-between h-full text-gray-700 cursor-pointer"
               >
