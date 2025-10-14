@@ -12,7 +12,9 @@ import Orders from "./pages/Orders";
 import TrackOrderPage from "./pages/TrackOrderPage";
 import Checkout from "./pages/Checkout";
 import { ToastContainer } from "react-toastify";
+import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
+
 // import "react-toastify/dist/ReactToastify.css"; for styling
 
 function App() {
@@ -31,6 +33,7 @@ function App() {
         <Route path="checkout" element={<Checkout />} />
         <Route path="/orders" element={<Orders />} />
         <Route path="/trackorder/:_id" element={<TrackOrderPage />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
       </Routes>
       <Footer />

@@ -138,7 +138,7 @@ const navigate = useNavigate()
             name="password"
           />
           <div className="flex justify-between text-sm w-full">
-            <p className="cursor-pointer hover:text-blue-600"><Link to="/reset-password">Forgot your password?</Link></p>
+            <p className="cursor-pointer hover:text-blue-600"><Link to="/forgot-password">Forgot your password?</Link></p>
             <p className="cursor-pointer" onClick={() => setisLoginOpen(false)}>
               Create a new account
             </p>

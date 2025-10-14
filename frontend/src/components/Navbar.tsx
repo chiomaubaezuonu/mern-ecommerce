@@ -3,11 +3,11 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Container from "../Container";
 import { useGlobalContext } from "../../GlobalContext";
-import { toast } from "react-toastify";
+import cart from "../assets/cart.png";
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const [isMenuOpen, setisMenuOpen] = useState(false);  
+  const [isMenuOpen, setisMenuOpen] = useState(false);
   const { setIsSearchBarOpen, cartItems } = useGlobalContext();
 
   const { isUserDetailOpen, setIsUserDetailOpen } = useGlobalContext();
@@ -20,9 +20,11 @@ const Navbar = () => {
     const token = localStorage.getItem("token");
 
     if (!token) {
-      toast.success("User is logged out");
-    } 
-
+      console.log("User is logged out");
+    } else {
+      console.log("User might be logged in");
+    }
+    user ? console.log(user) : "";
   };
 
   return (
@@ -93,14 +95,10 @@ const Navbar = () => {
               alt="search-icon"
               onClick={() => setIsSearchBarOpen(true)}
             />
-          </Link>
+          </Link> 
 
           <Link to="/cart" className="relative">
-            <img
-              src="/images/cart.png"
-              className="w-5 cursor-pointer"
-              alt="cart-icon"
-            />
+            <img src={cart} className="w-5 cursor-pointer" alt="cart-icon" />
             <p className="rounded-full w-4 h-4 bg-black text-white leading-4 text-[0.5rem] text-center absolute bottom-[-0.313rem] right-[-0.313rem]">
               {cartItems.length}
             </p>
@@ -109,7 +107,7 @@ const Navbar = () => {
             {user ? (
               <div className="relative">
                 <div
-                  onClick={() => setIsUserDetailOpen(!isUserDetailOpen)}
+                  onClick={() => setIsUserDetailOpen(true)}
                   className="bg-gray-200 rounded-full w-6 flex justify-center items-center h-6 cursor-pointer"
                 >
                   {user.email.slice(0, 1)}

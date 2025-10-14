@@ -18,87 +18,25 @@ const CollectionsPage = () => {
     Bottomwear: false,
     Winterwear: false,
   });
-
+  const [searchInput, setSearchInput] = useState("");
   useEffect(() => {
     axios
       .get("https://mern-ecommerce-ngdf.onrender.com/products")
       .then((res) => {
         setProducts(res.data);
-        setAllProducts(res.data)
+        setAllProducts(res.data);
       })
 
       .catch((err) => console.error(err));
   }, []);
 
-  const checkbox = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const toggleCheckbox = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, checked } = e.target;
     setCheckedBox((prev) => ({
       ...prev,
       [name]: checked,
     }));
-
-    let filteredProducts = [...products];
-    if (name === "Men" && checked) {
-      filteredProducts = filteredProducts.filter(
-        (products) => products.category === "Men"
-      );
-    } else if (name === "Women" && checked) {
-      filteredProducts = filteredProducts.filter(
-        (product) => product.category === "Women"
-      );
-    } else if (name === "Kids" && checked) {
-      filteredProducts = filteredProducts.filter(
-        (product) => product.category === "Kids"
-      );
-    } else if (name === "Topwear" && checked) {
-      filteredProducts = filteredProducts.filter(
-        (product) => product.subCategory === "Topwear"
-      );
-    } else if (name === "Winterwear" && checked) {
-      filteredProducts = filteredProducts.filter(
-        (product) => product.subCategory === "Winterwear"
-      );
-    } else if (name === "Bottomwear" && checked) {
-      filteredProducts = filteredProducts.filter(
-        (product) => product.subCategory === "Bottomwear"
-      );
-    }
-    
-    filteredProducts ? setProducts(filteredProducts) : setProducts(products);
   };
-
-
-  // const checkbox = (e: React.ChangeEvent<HTMLInputElement>) => {
-  // const { name, checked } = e.target;
-
-  // Update the checkedBox state
-//   setCheckedBox((prev) => {
-//     const updatedCheckedBox = {
-//       ...prev,
-//       [name]: checked,
-//     };
-
-//     // Get all active filters (checkboxes that are checked)
-//     const activeFilters = Object.keys(updatedCheckedBox).filter(
-//       (key) => updatedCheckedBox[key]
-//     );
-
-//     // Filter products based on active filters
-//     const filteredProducts =
-//       activeFilters.length > 0
-//         ? allProducts.filter(
-//             (product) =>
-//               activeFilters.includes(product.category) ||
-//               activeFilters.includes(product.subCategory)
-//           )
-//         : allProducts; // If no filters are active, show all products
-
-//     // Update the products state
-//     setProducts(filteredProducts);
-
-//     return updatedCheckedBox; // Return the updated checkedBox state
-//   });
-// };
 
   const sortChangeUpdate = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value as
@@ -128,7 +66,53 @@ const CollectionsPage = () => {
     }
     sortedProducts ? setProducts(sortedProducts) : [];
   };
-  // console.log("Collections page:", new Date(products[0]?.createdAt).getDate())
+  const filteredProducts = products.filter((product) => {
+    const productMatchesSearch =
+      product.category.toLowerCase().includes(searchInput.toLowerCase()) ||
+      product.name.toLowerCase().includes(searchInput.toLowerCase());
+    if (searchInput && !productMatchesSearch) {
+      return false;
+    }
+    const productIsMenCategory = product.category === "Men";
+    const productIsWomenCategory = product.category === "Women";
+    const productIsKidsCategory = product.category === "Kids";
+    const productIsTopwearSubCategory = product.subCategory === "Topwear";
+    const productIsBottomwearSubCategory = product.subCategory === "Bottomwear";
+    const productIsWinterwearSubCategory = product.subCategory === "Winterwear";
+   
+    if (checkedBox.Men && productIsMenCategory) {
+      return true;
+    }
+    if (checkedBox.Women && productIsWomenCategory) {
+      return true;
+    }
+    if (checkedBox.Kids && productIsKidsCategory) {
+      return true;
+    }
+    if (checkedBox.Topwear && productIsTopwearSubCategory) {
+      return true;
+    }
+    if (checkedBox.Bottomwear && productIsBottomwearSubCategory) {
+      return true;
+    }
+    if (checkedBox.Winterwear && productIsWinterwearSubCategory) {
+      return true;
+    }
+    if (
+      checkedBox.Men ||
+      checkedBox.Women ||
+      checkedBox.Kids ||
+      checkedBox.Topwear ||
+      checkedBox.Bottomwear ||
+      checkedBox.Winterwear
+    ) {
+      return false;
+    }
+    return true;
+  });
+  console.log(
+    products.filter((product) => product.subCategory === "Bottomwear")
+  );
   return (
     <Container>
       {isSearchBarOpen && (
@@ -136,8 +120,10 @@ const CollectionsPage = () => {
           <div className="w-3/4  flex items-center justify-between px-5 py-2 mx-3 my-5 sm:w-1/2 border border-gray-400 rounded-full">
             <input
               type="text"
-              className="text-sm bg-inherit outline-none"
+              className="text-sm bg-inherit outline-none z-50"
               placeholder="Search..."
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
             />
             <img src="/images/search.png" className="w-4" alt="search icon" />
           </div>
@@ -170,8 +156,7 @@ const CollectionsPage = () => {
                   className="w-3"
                   name="Men"
                   checked={checkedBox.Men}
-                  onChange={checkbox}
-                  value="men"
+                  onChange={toggleCheckbox}
                 />
                 Men
               </label>
@@ -180,8 +165,8 @@ const CollectionsPage = () => {
                   type="checkbox"
                   className="w-3"
                   name="Women"
-                  onChange={checkbox}
-                  value="Women"
+                  onChange={toggleCheckbox}
+                  checked={checkedBox.Women}
                 />
                 Women
               </label>
@@ -190,8 +175,8 @@ const CollectionsPage = () => {
                   type="checkbox"
                   className="w-3"
                   name="Kids"
-                  onChange={checkbox}
-                  value="Kids"
+                  onChange={toggleCheckbox}
+                  checked={checkedBox.Kids}
                 />
                 Kids
               </label>
@@ -205,8 +190,8 @@ const CollectionsPage = () => {
                   type="checkbox"
                   className="w-3"
                   name="Topwear"
-                  onChange={checkbox}
-                  value="Topwear"
+                  onChange={toggleCheckbox}
+                  checked={checkedBox.Topwear}
                 />
                 Topwear
               </label>
@@ -215,8 +200,8 @@ const CollectionsPage = () => {
                   type="checkbox"
                   className="w-3"
                   name="Bottomwear"
-                  onChange={checkbox}
-                  value="Bottomwear"
+                  onChange={toggleCheckbox}
+                  checked={checkedBox.Bottomwear}
                 />
                 Bottomwear
               </label>
@@ -225,8 +210,8 @@ const CollectionsPage = () => {
                   type="checkbox"
                   className="w-3"
                   name="Winterwear"
-                  onChange={checkbox}
-                  value="Winterwear"
+                  onChange={toggleCheckbox}
+                  checked={checkedBox.Winterwear}
                 />
                 Winterwear
               </label>
@@ -242,7 +227,7 @@ const CollectionsPage = () => {
                 Bottomwear: false,
                 Winterwear: false,
               });
-             allProducts ? setProducts(allProducts) : [];
+              allProducts ? setProducts(allProducts) : [];
             }}
             className="hidden sm:block mt-1 rounded text-white cursor-pointer bg-black px-4 py-2 hover:bg-gray-900"
           >
@@ -276,7 +261,7 @@ const CollectionsPage = () => {
             </select>
           </div>
           <div className="grid grid-cols-2 gap-4 gap-y-6 md:grid-cols-3 lg:grid-cols-4">
-            {products.map((product) => {
+            {filteredProducts.map((product) => {
               return (
                 <Link to={`/product/${product._id}`} key={product._id}>
                   <div className="flex flex-col cursor-pointer overflow-hidden">
