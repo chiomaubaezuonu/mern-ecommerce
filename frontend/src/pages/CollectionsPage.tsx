@@ -5,12 +5,19 @@ import Title from "../components/Title";
 import { Products } from "../../GlobalContext";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+type Category =
+  | "Men"
+  | "Women"
+  | "Kids"
+  | "Topwear"
+  | "Bottomwear"
+  | "Winterwear";
 
 const CollectionsPage = () => {
   const [products, setProducts] = useState<Products[]>([]);
-  const [allProducts, setAllProducts] = useState<Products[]>([]);
+
   const { isSearchBarOpen, setIsSearchBarOpen } = useGlobalContext();
-  const [checkedBox, setCheckedBox] = useState({
+  const [checkedBox, setCheckedBox] = useState<Record<Category, boolean>>({
     Men: false,
     Women: false,
     Kids: false,
@@ -18,13 +25,13 @@ const CollectionsPage = () => {
     Bottomwear: false,
     Winterwear: false,
   });
+
   const [searchInput, setSearchInput] = useState("");
   useEffect(() => {
     axios
       .get("https://mern-ecommerce-ngdf.onrender.com/products")
       .then((res) => {
         setProducts(res.data);
-        setAllProducts(res.data);
       })
 
       .catch((err) => console.error(err));
@@ -66,53 +73,105 @@ const CollectionsPage = () => {
     }
     sortedProducts ? setProducts(sortedProducts) : [];
   };
+  //Method 1
+  // const filteredProducts = products.filter((product) => {
+  //   const productMatchesSearch =
+  //     product.category.toLowerCase().includes(searchInput.toLowerCase()) ||
+  //     product.name.toLowerCase().includes(searchInput.toLowerCase()) ||
+  //     product.subCategory.toLowerCase().includes(searchInput.toLowerCase());
+  //   if (searchInput && !productMatchesSearch) {
+  //     return false;
+  //   }
+  //   const productIsMenCategory = product.category === "Men";
+  //   const productIsWomenCategory = product.category === "Women";
+  //   const productIsKidsCategory = product.category === "Kids";
+  //   const productIsTopwearSubCategory = product.subCategory === "Topwear";
+  //   const productIsBottomwearSubCategory = product.subCategory === "Bottomwear";
+  //   const productIsWinterwearSubCategory = product.subCategory === "Winterwear";
+
+  //   if (checkedBox.Men && productIsMenCategory) {
+  //     return true;
+  //   }
+  //   if (checkedBox.Women && productIsWomenCategory) {
+  //     return true;
+  //   }
+  //   if (checkedBox.Kids && productIsKidsCategory) {
+  //     return true;
+  //   }
+  //   if (checkedBox.Topwear && productIsTopwearSubCategory) {
+  //     return true;
+  //   }
+  //   if (checkedBox.Bottomwear && productIsBottomwearSubCategory) {
+  //     return true;
+  //   }
+  //   if (checkedBox.Winterwear && productIsWinterwearSubCategory) {
+  //     return true;
+  //   }
+  //   if (
+  //     checkedBox.Men ||
+  //     checkedBox.Women ||
+  //     checkedBox.Kids ||
+  //     checkedBox.Topwear ||
+  //     checkedBox.Bottomwear ||
+  //     checkedBox.Winterwear
+  //   ) {
+  //     return false;
+  //   }
+  //   return true;
+  // });
+
+  //Method2
+  // const filteredProducts = products.filter((product) => {
+  //   const isProductSearchMatch =
+  //     product.name.toLowerCase().startsWith(searchInput.toLowerCase()) ||
+  //     product.category.toLowerCase().startsWith(searchInput.toLowerCase()) ||
+  //     product.subCategory.toLowerCase().startsWith(searchInput.toLowerCase());
+  //   if (searchInput && !isProductSearchMatch) {
+  //     return false;
+  //   }
+  //   if (
+  //     (checkedBox.Men && product.category === "Men") ||
+  //     (checkedBox.Women && product.category === "Women") ||
+  //     (checkedBox.Kids && product.category === "Kids") ||
+  //     (checkedBox.Topwear && product.subCategory === "Topwear") ||
+  //     (checkedBox.Bottomwear && product.subCategory === "Bottomwear") ||
+  //     (checkedBox.Winterwear && product.subCategory === "Winterwear")
+  //   ) {
+  //     return true;
+  //   }
+  //   if (
+  //     !checkedBox.Men &&
+  //     !checkedBox.Women &&
+  //     !checkedBox.Kids &&
+  //     !checkedBox.Topwear &&
+  //     !checkedBox.Bottomwear &&
+  //     !checkedBox.Winterwear
+  //   )
+  //     return true;
+  // });
+
+  //Method3
   const filteredProducts = products.filter((product) => {
-    const productMatchesSearch =
-      product.category.toLowerCase().includes(searchInput.toLowerCase()) ||
-      product.name.toLowerCase().includes(searchInput.toLowerCase());
-    if (searchInput && !productMatchesSearch) {
-      return false;
-    }
-    const productIsMenCategory = product.category === "Men";
-    const productIsWomenCategory = product.category === "Women";
-    const productIsKidsCategory = product.category === "Kids";
-    const productIsTopwearSubCategory = product.subCategory === "Topwear";
-    const productIsBottomwearSubCategory = product.subCategory === "Bottomwear";
-    const productIsWinterwearSubCategory = product.subCategory === "Winterwear";
-   
-    if (checkedBox.Men && productIsMenCategory) {
-      return true;
-    }
-    if (checkedBox.Women && productIsWomenCategory) {
-      return true;
-    }
-    if (checkedBox.Kids && productIsKidsCategory) {
-      return true;
-    }
-    if (checkedBox.Topwear && productIsTopwearSubCategory) {
-      return true;
-    }
-    if (checkedBox.Bottomwear && productIsBottomwearSubCategory) {
-      return true;
-    }
-    if (checkedBox.Winterwear && productIsWinterwearSubCategory) {
-      return true;
-    }
-    if (
+    const isProductSearchMatch =
+      product.name.toLowerCase().startsWith(searchInput.toLowerCase()) ||
+      product.category.toLowerCase().startsWith(searchInput.toLowerCase()) ||
+      product.subCategory.toLowerCase().startsWith(searchInput.toLowerCase());
+
+    if (searchInput && !isProductSearchMatch) return false;
+
+    const isAnyCategoryChecked =
       checkedBox.Men ||
       checkedBox.Women ||
       checkedBox.Kids ||
       checkedBox.Topwear ||
       checkedBox.Bottomwear ||
-      checkedBox.Winterwear
-    ) {
-      return false;
-    }
-    return true;
+      checkedBox.Winterwear;
+
+    if (!isAnyCategoryChecked) return true;
+
+    return checkedBox[product.category as Category] || checkedBox[product.subCategory as Category];
   });
-  console.log(
-    products.filter((product) => product.subCategory === "Bottomwear")
-  );
+
   return (
     <Container>
       {isSearchBarOpen && (
@@ -227,7 +286,6 @@ const CollectionsPage = () => {
                 Bottomwear: false,
                 Winterwear: false,
               });
-              allProducts ? setProducts(allProducts) : [];
             }}
             className="hidden sm:block mt-1 rounded text-white cursor-pointer bg-black px-4 py-2 hover:bg-gray-900"
           >

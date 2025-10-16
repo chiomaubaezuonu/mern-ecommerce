@@ -7,9 +7,9 @@ interface Container {
 
  const Container = ({ children, className = "" }: Container) => {
 
-  const { isUserDetailOpen, setIsUserDetailOpen } = useGlobalContext()
+  const { setIsUserDetailOpen } = useGlobalContext()
   return (
-    <div onClick={() => setIsUserDetailOpen(!isUserDetailOpen)} className={`px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw] ${className}`}>
+    <div onClick={() => setIsUserDetailOpen(false)} className={`px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw] ${className}`}>
       {children}
     </div>
   );
