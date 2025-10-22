@@ -1,7 +1,6 @@
 import Container from "../Container";
 import { useGlobalContext } from "../../GlobalContext";
 import Title from "../components/Title";
-import { products } from "../assets/assets";
 import { Link } from "react-router-dom";
 
 const Orders = () => {

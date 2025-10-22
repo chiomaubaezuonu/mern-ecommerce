@@ -1,6 +1,5 @@
 import axios from "axios";
 import Container from "../Container";
-import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 
 const ForgotPassword = () => {
