@@ -95,7 +95,7 @@ const Navbar = () => {
               alt="search-icon"
               onClick={() => setIsSearchBarOpen(true)}
             />
-          </Link> 
+          </Link>
 
           <Link to="/cart" className="relative">
             <img src={cart} className="w-5 cursor-pointer" alt="cart-icon" />
@@ -114,9 +114,10 @@ const Navbar = () => {
                 </div>
                 {isUserDetailOpen && (
                   <div className="absolute rounded top-10 right-0 bg-gray-200 p-4 w-[17rem]">
-                    <p className="italic mb-5 text-xs">
+                    <p className="italic mb-5 text-xs normal-case">
                       Logged in as {user.email}
                     </p>
+                  
                     <button
                       onClick={logoutUser}
                       className="w-full cursor-pointer bg-gray-600 py-1  px-3 text-white"
@@ -143,7 +144,7 @@ const Navbar = () => {
                     <p className="hover:text-black cursor-pointer pt-2 capitalize">
                       <Link to="/orders">Orders</Link>
                     </p>
-                    <p className="hover:text-black cursor-pointer pt-2 capitalize">
+                    <p onClick={() => logoutUser()} className="hover:text-black cursor-pointer pt-2 capitalize">
                       Logout
                     </p>
                   </div>

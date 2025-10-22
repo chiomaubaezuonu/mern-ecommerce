@@ -3,7 +3,7 @@ import Container from "../Container";
 import { Link } from "react-router-dom";
 import Title from "../components/Title";
 import { useGlobalContext } from "../../GlobalContext";
-
+import { useEffect } from "react";
 
 export interface Products {
   _id: string;
@@ -17,12 +17,10 @@ export interface Products {
   bestSeller: boolean;
 }
 const Home = () => {
-  
-  const { products } = useGlobalContext();
-  
-
-
-
+  const { products, setIsUserDetailOpen } = useGlobalContext();
+  useEffect(() => {
+    setIsUserDetailOpen(false);
+  }, []);
   return (
     <Container>
       <div className="flex flex-col sm:flex-row border border-gray-400">
