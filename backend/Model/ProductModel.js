@@ -32,9 +32,5 @@ const ProductSchema = new mongoose.Schema({
   bestSeller: {
     type: Boolean,
   },
-  date: {
-    type: Number,
-    required: true,
-  },
 }, {timestamps: true});
 export const Product = mongoose.model("Product", ProductSchema);
