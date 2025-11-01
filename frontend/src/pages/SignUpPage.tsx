@@ -120,7 +120,7 @@ const navigate = useNavigate()
           className="flex flex-col items-center gap-4 text-gray-800 mx-auto mt-14 w-[90%] sm:max-w-96"
         >
           <div className="mt-10 mb-2 flex items-center gap-2">
-            <p className="text-3xl prata-regular">Login</p>
+            <p className="text-3xl prata-regular cursor-pointer">Login</p>
             <p className="w-8 h-[1px] sm:h-[2px] bg-gray-700"></p>
           </div>
           <input
@@ -145,7 +145,7 @@ const navigate = useNavigate()
           </div>
           <button
             type="submit"
-            className="bg-black text-white mt-4 px-8 py-2 font-light"
+            className="bg-black text-white mt-4 px-8 py-2 font-light cursor-pointer"
           >
             Sign In
           </button>

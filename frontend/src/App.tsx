@@ -34,7 +34,7 @@ function App() {
         <Route path="/orders" element={<Orders />} />
         <Route path="/trackorder/:_id" element={<TrackOrderPage />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/reset-password/:token" element={<ResetPassword />} />
       </Routes>
       <Footer />
     </>

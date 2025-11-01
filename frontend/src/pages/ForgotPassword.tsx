@@ -1,6 +1,7 @@
 import axios from "axios";
 import Container from "../Container";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
@@ -17,8 +18,10 @@ const ForgotPassword = () => {
         { email }
       );
       setMessage(res.data.message);
+      toast.success("Reset link has been sent to your email");
     } catch (error: any) {
-      setMessage(error.response?.data?.message || "Something went wrong");
+       setMessage(error.response?.data?.message || "Something went wrong");
+      toast.error("Somethingwent wrong");
     } finally {
       setLoading(false);
     }
@@ -27,7 +30,10 @@ const ForgotPassword = () => {
   return (
     <Container>
       <div className="py-17">
-        <form onSubmit={submitForm} className="flex flex-col rounded-lg py-7.5 px-14 mb-12 gap-4 max-w-[39rem] mx-auto border">
+        <form
+          onSubmit={submitForm}
+          className="flex flex-col rounded-lg py-7.5 px-14 mb-12 gap-4 max-w-[39rem] mx-auto border"
+        >
           <h1 className="text-4xl font-medium text-center mb-6">
             Recover Password
           </h1>
