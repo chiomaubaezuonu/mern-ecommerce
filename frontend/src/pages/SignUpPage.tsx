@@ -11,7 +11,7 @@ const SignUpPage = () => {
     email: "",
     password: "",
   });
-const navigate = useNavigate()
+  const navigate = useNavigate();
   const [isLoginOpen, setisLoginOpen] = useState(false);
 
   const inputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,13 +25,12 @@ const navigate = useNavigate()
   const submitForm = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/users/signup",
+      const response = await API.post(
+        "/api/users/signup",
         formData
       );
-       toast.success(response.data.message);
+      toast.success(response.data.message);
       console.log(response.data);
-
     } catch (error: any) {
       toast.error(error.response?.data?.message || "Signup failed");
     }
@@ -42,30 +41,27 @@ const navigate = useNavigate()
     });
   };
 
-
   const submitLoginForm = async (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     const { email, password } = formData;
-    if(!email || !password){
-      toast.warning("Please fill all fields")
+    if (!email || !password) {
+      toast.warning("Please fill all fields");
       return;
     }
     try {
-      const { data } = await API.post("api/users/login", {email, password})
-      localStorage.setItem("token", data.token)
-      localStorage.setItem("user", JSON.stringify(data.user))
-      toast.success("Login successful!!")
+      const { data } = await API.post("/api/users/login", { email, password });
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
+      toast.success("Login successful!!");
 
-      if(data){
-        navigate("/")
-        
+      if (data) {
+        navigate("/");
       }
     } catch (error: any) {
-      console.error("Login error", error)
-      toast.error(error.response?.data?.message || "Login failed")
+      console.error("Login error", error);
+      toast.error(error.response?.data?.message || "Login failed");
     }
   };
-
 
   return (
     <Container>
@@ -100,7 +96,9 @@ const navigate = useNavigate()
             name="password"
           />
           <div className="flex justify-between text-sm w-full">
-            <p>Forgot your password?</p>
+            <Link to="/forgot-password">
+              <p className="cursor-pointer hover:text-blue-600">Forgot your password?</p>
+            </Link>
             <p className="cursor-pointer" onClick={() => setisLoginOpen(true)}>
               Login here
             </p>
@@ -138,7 +136,9 @@ const navigate = useNavigate()
             name="password"
           />
           <div className="flex justify-between text-sm w-full">
-            <p className="cursor-pointer hover:text-blue-600"><Link to="/forgot-password">Forgot your password?</Link></p>
+            <p className="cursor-pointer hover:text-blue-600">
+              <Link to="/forgot-password">Forgot your password?</Link>
+            </p>
             <p className="cursor-pointer" onClick={() => setisLoginOpen(false)}>
               Create a new account
             </p>

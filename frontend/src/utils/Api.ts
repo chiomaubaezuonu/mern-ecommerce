@@ -1,8 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-    // baseURL: "https://mern-ecommerce-ngdf.onrender.com"
-    baseURL: "http://localhost:5000"
+    baseURL: "https://mern-ecommerce-ngdf.onrender.com"
 })
 
 API.interceptors.request.use((config) => {

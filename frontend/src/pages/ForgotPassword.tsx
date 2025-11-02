@@ -1,7 +1,8 @@
-import axios from "axios";
+
 import Container from "../Container";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import API from "../utils/Api";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
@@ -13,8 +14,8 @@ const ForgotPassword = () => {
     setLoading(true);
 
     try {
-      const res = await axios.post(
-        "http://localhost:5000/api/users/forgot-password",
+      const res = await API.post(
+        "/api/users/forgot-password",
         { email }
       );
       setMessage(res.data.message);
