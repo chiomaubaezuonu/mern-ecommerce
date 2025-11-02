@@ -72,7 +72,7 @@ router.post("/forgot-password", async (req, res) => {
         expiresIn: "1h",
       });
     };
-    const resetToken = generateResetToken(user.id);
+    const resetToken = generateResetToken(user._id);
     user.resetToken = await bcrypt.hash(resetToken, 10);
 
     await user.save();
