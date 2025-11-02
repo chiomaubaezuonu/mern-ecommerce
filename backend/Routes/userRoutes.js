@@ -76,7 +76,7 @@ router.post("/forgot-password", async (req, res) => {
     user.resetToken = await bcrypt.hash(resetToken, 10);
 
     await user.save();
-    const resetLink = `http://localhost:5173/reset-password/${resetToken}`;
+    const resetLink = `${process.env.FRONTEND_URL || 'http://localhost:5173'}/reset-password/${resetToken}`;
     const mailTransporter = nodemailer.createTransport({
       host: "smtp-relay.brevo.com",
       port: 2525,
