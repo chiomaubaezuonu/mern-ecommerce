@@ -7,6 +7,7 @@ import {
   useEffect,
   useState,
 } from "react";
+import API from "./src/utils/Api";
 
 export interface Products {
   _id: string;
@@ -55,13 +56,14 @@ export const GlobalProvider: FunctionComponent<{ children: ReactNode }> = ({
   const [isUserDetailOpen, setIsUserDetailOpen] = useState(false);
 
   useEffect(() => {
-    axios
-      .get("https://mern-ecommerce-ngdf.onrender.com/products")
+    API
+      .get("/products")
       .then((res) => {
         setProducts(res.data);
       })
       .catch((err) => console.error(err));
   }, []);
+  console.log(products)
 
   useEffect(() => {
     setSubTotal(

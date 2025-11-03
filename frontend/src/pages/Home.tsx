@@ -21,6 +21,7 @@ const Home = () => {
   useEffect(() => {
     setIsUserDetailOpen(false);
   }, []);
+  console.log(products)
   return (
     <Container>
       <div className="flex flex-col sm:flex-row border border-gray-400">

@@ -71,7 +71,7 @@ const Checkout = () => {
           />
         </div>
         <div className="mt-8">
-          <div className="min-w-80 mt-8">
+          <div className="min-w-70 mt-8">
             <div className="w-full">
               <div className="text-2xl">
                 <Title text1="CART" text2="TOTAL" />
