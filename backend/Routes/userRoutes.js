@@ -72,11 +72,13 @@ router.post("/forgot-password", async (req, res) => {
         expiresIn: "1h",
       });
     };
-    const resetToken = generateResetToken(user._id);
+    const resetToken = generateResetToken(user.id);
     user.resetToken = await bcrypt.hash(resetToken, 10);
 
     await user.save();
-    const resetLink = `${process.env.FRONTEND_URL || 'http://localhost:5173'}/reset-password/${resetToken}`;
+    const resetLink = `${
+      process.env.FRONTEND_URL || "http://localhost:5173"
+    }/reset-password/${resetToken}`;
     const mailTransporter = nodemailer.createTransport({
       host: "smtp-relay.brevo.com",
       port: 2525,
@@ -102,6 +104,15 @@ router.post("/forgot-password", async (req, res) => {
 router.post("/reset-password", async (req, res) => {
   try {
     const { resetToken, newPassword } = req.body;
+    console.log("=== RESET PASSWORD DEBUG ===");
+    console.log("Reset token received:", resetToken);
+    console.log("New password provided:", !!newPassword);
+
+    if (!resetToken || !newPassword) {
+      return res
+        .status(400)
+        .json({ message: "Reset token and password are required" });
+    }
     const verifiedToken = jwt.verify(resetToken, process.env.JWT_SECRET);
     if (!verifiedToken) {
       return res.status(404).json({ message: "Invalid or expired token" });
@@ -116,7 +127,7 @@ router.post("/reset-password", async (req, res) => {
     await user.save();
     user.resetToken = null;
     await user.save();
-    res.status(200).json({message: "Password reset successfull!!"})
+    res.status(200).json({ message: "Password reset successfull!!" });
   } catch (error) {
     console.error(error);
     res.status(400).json({ message: "Invalid or expired token" });
