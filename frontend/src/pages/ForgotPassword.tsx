@@ -33,7 +33,7 @@ const ForgotPassword = () => {
       <div className="py-17">
         <form
           onSubmit={submitForm}
-          className="flex flex-col rounded-lg py-7.5 px-14 mb-12 gap-4 max-w-[39rem] mx-auto border"
+          className="flex flex-col rounded-lg py-7.5 px-4 mb-12 gap-4 max-w-[39rem] mx-auto border"
         >
           <h1 className="text-4xl font-medium text-center mb-6">
             Recover Password
@@ -50,7 +50,7 @@ const ForgotPassword = () => {
           />
           <button
             type="submit"
-            className="bg-black my-5 rounded-3xl w-full text-white mt-4 px-8 py-2 font-light"
+            className="bg-black my-5 rounded-3xl cursor-pointer w-full text-white mt-4 px-8 py-3 font-light"
           >
             {loading ? "Sending..." : "SEND"}
           </button>

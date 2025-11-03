@@ -3,34 +3,35 @@ import Container from "../Container";
 
 const Footer = () => {
   const location = useLocation();
-  const isProductPage = matchPath("/product/:_id", location.pathname)
+  // const isProductPage = matchPath("/product/:_id", location.pathname)
 
   return (
     <Container>
-      {location.pathname !== "/collection" &&
-        location.pathname !== "/signup" && !isProductPage && location.pathname !== "/orders" && location.pathname !=="/cart" && (
-          <div className="mt-10 flex flex-col items-center">
-            <p className="text-2xl text-gray-800 font-medium">
-              Unlock 20% Off | Subscribe Today!
-            </p>
-            <p className="text-gray-400 mt-3">
-              Don't miss out—unlock your savings now by subscribing below!
-            </p>
-            <form
-              action=""
-              className="flex items-center gap-3 w-full my-6 border-[0.063rem] border-gray-200 sm:w-1/2"
-            >
-              <input
-                type="text"
-                className="w-full pl-3 sm:flex-1 outline-none required:"
-                placeholder="hello@gmail.com"
-              />
-              <button className="uppercase px-10 py-4 bg-black text-white text-xs">
-                Subscribe
-              </button>
-            </form>
-          </div>
-        )}
+      {(location.pathname === "/" ||
+        location.pathname === "/about" ||
+        location.pathname === "/contact") && (
+        <div className="mt-10 flex flex-col items-center">
+          <p className="text-2xl text-gray-800 font-medium">
+            Unlock 20% Off | Subscribe Today!
+          </p>
+          <p className="text-gray-400 mt-3">
+            Don't miss out—unlock your savings now by subscribing below!
+          </p>
+          <form
+            action=""
+            className="flex items-center gap-3 w-full my-6 border-[0.063rem] border-gray-200 sm:w-1/2"
+          >
+            <input
+              type="text"
+              className="w-full pl-3 sm:flex-1 outline-none required:"
+              placeholder="hello@gmail.com"
+            />
+            <button className="uppercase px-10 py-4 bg-black text-white text-xs">
+              Subscribe
+            </button>
+          </form>
+        </div>
+      )}
       <div className="flex flex-col sm:flex-row text-sm my-10 mt-40 gap-14">
         <div>
           <Link to="/">

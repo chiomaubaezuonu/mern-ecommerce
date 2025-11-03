@@ -25,7 +25,7 @@ const ResetPassword = () => {
           newPassword: password }
       );
       setMessage(res.data.message);
-      setTimeout(() => navigate("/"), 2000);
+      setTimeout(() => navigate("/signup"), 2000);
     } catch (error: any) {
       setMessage(error.response?.data?.message || "Something went wrong");
     }
