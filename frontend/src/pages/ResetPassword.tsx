@@ -39,7 +39,6 @@ const ResetPassword = () => {
     <div className="max-w-md mx-auto mt-20 p-6 bg-gray-100 rounded">
       <h2 className="text-xl font-semibold mb-4">Reset Password</h2>
       <form onSubmit={handleSubmit}>
-        lfemkl
         <div className="relative">
           <input
             type={isPasswordHidden ? "password" : "text"}

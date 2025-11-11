@@ -12,6 +12,7 @@ const SignUpPage = () => {
     email: "",
     password: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const [isLoginOpen, setisLoginOpen] = useState(false);
 
@@ -25,6 +26,10 @@ const SignUpPage = () => {
 
   const submitForm = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
+    if (!formData.name || !formData.email || !formData.password) {
+      toast.warning("Please fill all fields");
+    }
     try {
       const response = await API.post("/api/users/signup", formData);
       toast.success(response.data.message);
@@ -37,6 +42,7 @@ const SignUpPage = () => {
       email: "",
       password: "",
     });
+    setIsLoading(false);
   };
 
   const submitLoginForm = async (e: React.FormEvent) => {
@@ -46,6 +52,7 @@ const SignUpPage = () => {
       toast.warning("Please fill all fields");
       return;
     }
+    setIsLoading(true);
     try {
       const { data } = await API.post("/api/users/login", { email, password });
       localStorage.setItem("token", data.token);
@@ -58,6 +65,8 @@ const SignUpPage = () => {
     } catch (error: any) {
       console.error("Login error", error);
       toast.error(error.response?.data?.message || "Login failed");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -116,9 +125,16 @@ const SignUpPage = () => {
           </div>
           <button
             type="submit"
-            className="bg-black cursor-pointer text-white mt-4 px-8 py-2 font-light"
+            className="flex items-center gap-2 bg-black cursor-pointer text-white mt-4 px-8 py-2 font-light"
           >
             Sign Up
+            {isLoading && (
+              <img
+                src="/images/loading-icon.svg"
+                className="w-6"
+                alt="loading-icon"
+              />
+            )}
           </button>
         </form>
       )}{" "}
@@ -168,9 +184,16 @@ const SignUpPage = () => {
           </div>
           <button
             type="submit"
-            className="bg-black text-white mt-4 px-8 py-2 font-light cursor-pointer"
+            className="flex items-center gap-2 bg-black text-white mt-4 px-8 py-2 font-light cursor-pointer"
           >
             Sign In
+            {isLoading && (
+              <img
+                src="/images/loading-icon.svg"
+                className="w-6"
+                alt="loading-icon"
+              />
+            )}
           </button>
         </form>
       )}
