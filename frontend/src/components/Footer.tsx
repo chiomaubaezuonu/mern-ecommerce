@@ -1,9 +1,8 @@
-import { Link, useLocation, matchPath } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Container from "../Container";
 
 const Footer = () => {
   const location = useLocation();
-  // const isProductPage = matchPath("/product/:_id", location.pathname)
 
   return (
     <Container>

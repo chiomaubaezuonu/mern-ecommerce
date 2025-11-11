@@ -3,8 +3,10 @@ import Container from "../Container";
 import { toast } from "react-toastify";
 import API from "../utils/Api";
 import { Link, useNavigate } from "react-router-dom";
+import { useGlobalContext } from "../../GlobalContext";
 
 const SignUpPage = () => {
+  const { togglePassword, isPasswordHidden } = useGlobalContext();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -24,10 +26,7 @@ const SignUpPage = () => {
   const submitForm = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await API.post(
-        "/api/users/signup",
-        formData
-      );
+      const response = await API.post("/api/users/signup", formData);
       toast.success(response.data.message);
       console.log(response.data);
     } catch (error: any) {
@@ -87,16 +86,29 @@ const SignUpPage = () => {
             onChange={inputChange}
             name="email"
           />
-          <input
-            type="text"
-            className="border-[0.063rem] px-3 py-2 border-gray-800 w-full"
-            placeholder="Password"
-            onChange={inputChange}
-            name="password"
-          />
+          <div className="w-full relative">
+            <input
+              type={isPasswordHidden ? "password" : "text"}
+              className="border-[0.063rem] px-3 py-2 border-gray-800 w-full"
+              placeholder="Password"
+              onChange={inputChange}
+              name="password"
+            />
+            <img
+              onClick={togglePassword}
+              src="/images/eye.png"
+              className="absolute top-2.5 right-2 cursor-pointer z-20"
+              alt="hide-password-icon"
+            />
+            {isPasswordHidden && (
+              <p className="text-3xl absolute top-1 right-3.5">/</p>
+            )}
+          </div>
           <div className="flex justify-between text-sm w-full">
             <Link to="/forgot-password">
-              <p className="cursor-pointer hover:text-blue-600">Forgot your password?</p>
+              <p className="cursor-pointer hover:text-blue-600">
+                Forgot your password?
+              </p>
             </Link>
             <p className="cursor-pointer" onClick={() => setisLoginOpen(true)}>
               Login here
@@ -127,13 +139,25 @@ const SignUpPage = () => {
             onChange={inputChange}
             name="email"
           />
-          <input
-            type="text"
-            className="border-[0.063rem] px-3 py-2 border-gray-800 w-full"
-            placeholder="Password"
-            onChange={inputChange}
-            name="password"
-          />
+          <div className="w-full relative">
+            <input
+              type={isPasswordHidden ? "password" : "text"}
+              className="border-[0.063rem] px-3 py-2 border-gray-800 w-full"
+              placeholder="Password"
+              onChange={inputChange}
+              name="password"
+            />
+            <img
+              onClick={togglePassword}
+              src="/images/eye.png"
+              className="absolute top-2.5 right-2 cursor-pointer z-20"
+              alt="hide-password-icon"
+            />
+            {isPasswordHidden && (
+              <p className="text-3xl absolute top-1 right-3.5">/</p>
+            )}
+          </div>
+
           <div className="flex justify-between text-sm w-full">
             <p className="cursor-pointer hover:text-blue-600">
               <Link to="/forgot-password">Forgot your password?</Link>

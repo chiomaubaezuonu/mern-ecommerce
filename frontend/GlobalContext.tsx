@@ -1,4 +1,3 @@
-import axios from "axios";
 import {
   createContext,
   FunctionComponent,
@@ -39,7 +38,10 @@ interface ContextType {
   subTotal: number;
   setSubTotal: React.Dispatch<React.SetStateAction<number>>;
   isUserDetailOpen: boolean;
-  setIsUserDetailOpen: React.Dispatch<React.SetStateAction<boolean>>
+  setIsUserDetailOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  isPasswordHidden: Boolean;
+  setIsPasswordHidden: React.Dispatch<React.SetStateAction<boolean>>;
+  togglePassword: () => void
 }
 const GlobalContext = createContext<ContextType | undefined>(undefined);
 
@@ -54,16 +56,16 @@ export const GlobalProvider: FunctionComponent<{ children: ReactNode }> = ({
   const [products, setProducts] = useState<Products[]>([]);
   const [subTotal, setSubTotal] = useState(0);
   const [isUserDetailOpen, setIsUserDetailOpen] = useState(false);
+  const [isPasswordHidden, setIsPasswordHidden] = useState(true);
 
   useEffect(() => {
-    API
-      .get("/products")
+    API.get("/products")
       .then((res) => {
         setProducts(res.data);
       })
       .catch((err) => console.error(err));
   }, []);
-  console.log(products)
+  console.log(products);
 
   useEffect(() => {
     setSubTotal(
@@ -74,6 +76,10 @@ export const GlobalProvider: FunctionComponent<{ children: ReactNode }> = ({
   useEffect(() => {
     localStorage.setItem("cartItems", JSON.stringify(cartItems));
   }, [cartItems]);
+  
+  const togglePassword = () => {
+    setIsPasswordHidden(!isPasswordHidden)
+  }
 
   return (
     <GlobalContext.Provider
@@ -89,7 +95,10 @@ export const GlobalProvider: FunctionComponent<{ children: ReactNode }> = ({
         subTotal,
         setSubTotal,
         isUserDetailOpen,
-        setIsUserDetailOpen
+        setIsUserDetailOpen,
+        isPasswordHidden,
+        setIsPasswordHidden,
+        togglePassword
       }}
     >
       {children}
