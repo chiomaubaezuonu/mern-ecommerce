@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import About from "./pages/About";
@@ -14,10 +14,14 @@ import Checkout from "./pages/Checkout";
 import { ToastContainer } from "react-toastify";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
-
-// import "react-toastify/dist/ReactToastify.css"; for styling
+import { useEffect } from "react";
 
 function App() {
+
+  const location = useLocation()
+   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
   return (
     <>
       <Navbar />

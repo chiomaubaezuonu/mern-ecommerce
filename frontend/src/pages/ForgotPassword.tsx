@@ -3,15 +3,16 @@ import Container from "../Container";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import API from "../utils/Api";
+import Button from "../components/Button";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const submitForm = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
+    setIsLoading(true);
 
     try {
       const res = await API.post(
@@ -24,7 +25,7 @@ const ForgotPassword = () => {
        setMessage(error.response?.data?.message || "Something went wrong");
       toast.error("Somethingwent wrong");
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -48,12 +49,7 @@ const ForgotPassword = () => {
             onChange={(e) => setEmail(e.target.value)}
             required
           />
-          <button
-            type="submit"
-            className="bg-black my-5 rounded-3xl cursor-pointer w-full text-white mt-4 px-8 py-3 font-light"
-          >
-            {loading ? "Sending..." : "SEND"}
-          </button>
+          <Button loading={isLoading} buttonType="submit" size="large">{isLoading ? "Sending...": "SEND"}</Button>
         </form>
         {message && (
           <p className="mt-4 text-center text-sm text-gray-700">{message}</p>

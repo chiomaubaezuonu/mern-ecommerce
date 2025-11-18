@@ -1,5 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import Container from "../Container";
+import Button from "./Button";
 
 const Footer = () => {
   const location = useLocation();
@@ -25,9 +26,10 @@ const Footer = () => {
               className="w-full pl-3 sm:flex-1 outline-none required:"
               placeholder="hello@gmail.com"
             />
-            <button className="uppercase px-10 py-4 bg-black text-white text-xs">
+            {/* <button className="uppercase px-10 py-4 bg-black text-white text-xs">
               Subscribe
-            </button>
+            </button> */}
+            <Button className="uppercase px-10 py-4 text-xs">Subscribe</Button>
           </form>
         </div>
       )}

@@ -10,6 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import { toast } from "react-toastify";
 import { useGlobalContext } from "../../GlobalContext";
+import Button from "../components/Button";
 
 export interface CartItem extends Products {
   quantity: number;
@@ -25,11 +26,10 @@ const ProductPage = () => {
   useEffect(() => {
     axios
       .get(`https://mern-ecommerce-ngdf.onrender.com/products/${_id}`)
-      
-      .then((res) => {
-        console.log("product", res.data)
-        setProduct(res.data.product)
 
+      .then((res) => {
+        console.log("product", res.data);
+        setProduct(res.data.product);
       })
       .catch((err) => console.error(err));
   }, [_id]);
@@ -38,17 +38,24 @@ const ProductPage = () => {
     product ? setMainImage(product.images[0]) : "";
   }, [product]);
 
-   const addToCart = (productId: string) => {
+  const addToCart = (productId: string) => {
     if (!selectedSize) {
       toast.warning("Please Select a Size");
       return;
     }
-    const alreadyInCart = cartItems.find((product) => product._id === productId);
+    const alreadyInCart = cartItems.find(
+      (product) => product._id === productId
+    );
     if (alreadyInCart) {
       setCartItems((prevItem) =>
         prevItem.map((item) => {
           return item._id === productId && item.size === selectedSize
-            ? { ...item, quantity: item.quantity + 1, size: selectedSize, createdAt: item.createdAt }
+            ? {
+                ...item,
+                quantity: item.quantity + 1,
+                size: selectedSize,
+                createdAt: item.createdAt,
+              }
             : item;
         })
       );
@@ -56,42 +63,47 @@ const ProductPage = () => {
     } else if (product) {
       setCartItems((prev) => [
         ...prev,
-        { ...product, quantity: 1, size: selectedSize, createdAt: new Date().toISOString() },
+        {
+          ...product,
+          quantity: 1,
+          size: selectedSize,
+          createdAt: new Date().toISOString(),
+        },
       ]);
       toast.success("Product added to cart");
     }
   };
 
-//    const addToCart = (productId: string) => {
-//   if (!selectedSize) {
-//     toast.warning("Please Select a Size");
-//     return;
-//   }
+  //    const addToCart = (productId: string) => {
+  //   if (!selectedSize) {
+  //     toast.warning("Please Select a Size");
+  //     return;
+  //   }
 
-//   // ✅ Check the CART, not the PRODUCTS list
-//   const existingItem = cartItems.find(
-//     (item) => item._id === productId && item.size === selectedSize
-//   );
+  //   // ✅ Check the CART, not the PRODUCTS list
+  //   const existingItem = cartItems.find(
+  //     (item) => item._id === productId && item.size === selectedSize
+  //   );
 
-//   if (existingItem) {
-//     // ✅ Update quantity
-//     setCartItems((prevItems) =>
-//       prevItems.map((item) =>
-//         item._id === productId && item.size === selectedSize
-//           ? { ...item, quantity: item.quantity + 1 }
-//           : item
-//       )
-//     );
-//     toast.info("Product quantity updated");
-//   } else if (product) {
-//     // ✅ Add new item
-//     setCartItems((prevItems) => [
-//       ...prevItems,
-//       { ...product, quantity: 1, size: selectedSize },
-//     ]);
-//     toast.success("Product added to cart");
-//   }
-// };
+  //   if (existingItem) {
+  //     // ✅ Update quantity
+  //     setCartItems((prevItems) =>
+  //       prevItems.map((item) =>
+  //         item._id === productId && item.size === selectedSize
+  //           ? { ...item, quantity: item.quantity + 1 }
+  //           : item
+  //       )
+  //     );
+  //     toast.info("Product quantity updated");
+  //   } else if (product) {
+  //     // ✅ Add new item
+  //     setCartItems((prevItems) => [
+  //       ...prevItems,
+  //       { ...product, quantity: 1, size: selectedSize },
+  //     ]);
+  //     toast.success("Product added to cart");
+  //   }
+  // };
 
   return (
     <Container>
@@ -148,28 +160,31 @@ const ProductPage = () => {
               <div className="flex gap-2">
                 {product?.sizes.map((size) => {
                   return (
-                    <button
+                    <Button
                       key={size}
                       onClick={() => setSelectedSize(size)}
-                      className={`px-4 py-2 border cursor-pointer ${
+                      type="transparent"
+                      size="tiny"
+                      className={`${
                         selectedSize === size
                           ? "border-orange-500"
                           : "border-gray-200"
-                      }  rounded-md bg-gray-100`}
+                      } text-black`}
                     >
                       {size}
-                    </button>
+                    </Button>
                   );
                 })}
               </div>
             </div>
             {product && (
-              <button
+              <Button
                 onClick={() => addToCart(product._id)}
-                className="py-3 text-white bg-black active:bg-gray-700 px-8 w-[9.7rem] text-sm cursor-pointer"
+                size="medium"
+                type="primary"
               >
                 ADD TO CART
-              </button>
+              </Button>
             )}
             <hr className=" mt-8 sm:w-4/5 text-gray-200" />
             <div className="flex flex-col gap-1 mt-5 text-sm text-gray-500">

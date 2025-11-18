@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import API from "../utils/Api";
 import { Link, useNavigate } from "react-router-dom";
 import { useGlobalContext } from "../../GlobalContext";
+import Button from "../components/Button";
 
 const SignUpPage = () => {
   const { togglePassword, isPasswordHidden } = useGlobalContext();
@@ -123,19 +124,15 @@ const SignUpPage = () => {
               Login here
             </p>
           </div>
-          <button
-            type="submit"
-            className="flex items-center gap-2 bg-black cursor-pointer text-white mt-4 px-8 py-2 font-light"
+          <Button
+            loading={isLoading}
+            type="primary"
+            className="mt-4 font-light"
+            buttonType="submit"
+            size="small"
           >
             Sign Up
-            {isLoading && (
-              <img
-                src="/images/loading-icon.svg"
-                className="w-6"
-                alt="loading-icon"
-              />
-            )}
-          </button>
+          </Button>
         </form>
       )}{" "}
       :
@@ -182,19 +179,7 @@ const SignUpPage = () => {
               Create a new account
             </p>
           </div>
-          <button
-            type="submit"
-            className="flex items-center gap-2 bg-black text-white mt-4 px-8 py-2 font-light cursor-pointer"
-          >
-            Sign In
-            {isLoading && (
-              <img
-                src="/images/loading-icon.svg"
-                className="w-6"
-                alt="loading-icon"
-              />
-            )}
-          </button>
+          <Button loading={isLoading} size="small" buttonType="submit"  className="mt-4 font-light" type="primary">Sign In</Button>
         </form>
       )}
     </Container>

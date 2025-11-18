@@ -4,6 +4,7 @@ import aboutImg from "../assets/about_img.png";
 import Contact from "../components/Footer";
 
 const About = () => {
+ 
   return (
     <Container>
       <div className="pt-8 border-t-[0.063rem] border-gray-200  text-2xl text-center uppercase">
