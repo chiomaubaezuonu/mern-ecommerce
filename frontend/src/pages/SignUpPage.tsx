@@ -6,6 +6,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { useGlobalContext } from "../../GlobalContext";
 import Button from "../components/Button";
 import Input from "../components/Input";
+interface FormData {
+  name: string;
+  email: string;
+  password: string;
+}
 
 const SignUpPage = () => {
   const { togglePassword, isPasswordHidden } = useGlobalContext();
@@ -31,7 +36,10 @@ const SignUpPage = () => {
     setIsLoading(true);
     if (!formData.name || !formData.email || !formData.password) {
       toast.warning("Please fill all fields");
+      setIsLoading(false);
+      return;
     }
+
     try {
       const response = await API.post("/api/users/signup", formData);
       toast.success(response.data.message);
@@ -52,6 +60,7 @@ const SignUpPage = () => {
     const { email, password } = formData;
     if (!email || !password) {
       toast.warning("Please fill all fields");
+      setIsLoading(false)
       return;
     }
     setIsLoading(true);
@@ -72,6 +81,7 @@ const SignUpPage = () => {
     }
   };
   const placeholders = ["John Doe", "hello@gmail.com", "password"];
+  const fieldNames :(keyof FormData)[] = ["name", "email", "password"];
 
   return (
     <Container>
@@ -84,14 +94,19 @@ const SignUpPage = () => {
             <p className="text-3xl prata-regular">Sign Up</p>
             <p className="w-8 sm:w-12 h-[1px] sm:h-[2px] bg-gray-700"></p>
           </div>
-          {placeholders.map((placeholder) => (
+          {placeholders.map((placeholder, index) => (
             <div className="w-full relative">
               <Input
-                htmlType="text"
+                htmlType={
+                  placeholder === "password" && isPasswordHidden
+                    ? "password"
+                    : "text"
+                }
                 size="medium"
                 placeholder={placeholder}
-                name={name}
+                name={fieldNames[index]}
                 onChange={inputChange}
+                value={formData[fieldNames[index]]}
               />
 
               {placeholder === "password" && (
@@ -142,14 +157,15 @@ const SignUpPage = () => {
             <p className="w-8 h-[1px] sm:h-[2px] bg-gray-700"></p>
           </div>
 
-          {placeholders.slice(1).map((placeholder) => (
+          {placeholders.slice(1).map((placeholder, index) => (
             <div className="w-full relative">
               <Input
                 htmlType="text"
                 size="medium"
                 placeholder={placeholder}
-                name={name}
+                name={fieldNames[index + 1]}
                 onChange={inputChange}
+                value={formData[fieldNames[index + 1]]}
               />
               {placeholder === "password" && (
                 <div>
