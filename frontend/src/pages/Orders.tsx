@@ -2,6 +2,7 @@ import Container from "../Container";
 import { useGlobalContext } from "../../GlobalContext";
 import Title from "../components/Title";
 import { Link } from "react-router-dom";
+import Button from "../components/Button";
 
 const Orders = () => {
   const { cartItems } = useGlobalContext();
@@ -46,9 +47,7 @@ const Orders = () => {
                     <p className="text-sm md:text-base">Ready for Shipping</p>
                   </div>
                   <Link to={`/trackorder/${item._id}`}>
-                    <button className="px-2 py-2 text-sm font-medium border border-gray-200 rounded-sm cursor-pointer">
-                      TRACK ORDER
-                    </button>
+                    <Button type="transparent" className="bg-transparent px-2" size="small">TRACK ORDER</Button>
                   </Link>
                 </div>
               </div>

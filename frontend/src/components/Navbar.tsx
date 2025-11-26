@@ -118,12 +118,12 @@ const Navbar = () => {
                       Logged in as {user.email}
                     </p>
                   
-                    <button
+                    <div
                       onClick={logoutUser}
                       className="w-full cursor-pointer bg-gray-600 py-1  px-3 text-white"
                     >
                       Logout
-                    </button>
+                    </div>
                   </div>
                 )}
               </div>

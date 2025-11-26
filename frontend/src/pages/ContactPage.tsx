@@ -1,6 +1,7 @@
 import Title from "../components/Title";
 import Container from "../Container";
 import Contact from "../components/Footer";
+import Button from "../components/Button";
 
 const ContactPage = () => {
   return (
@@ -36,9 +37,12 @@ const ContactPage = () => {
             Explore our current job openings and discover how you can contribute
             to our mission of setting trends and creating style.
           </p>
-          <button className="cursor-pointer text-sm py-4 px-8 border-[0.063rem] border-black trasition-all duration-500 hover:text-white hover:bg-gray-800">
+          {/* <button className="cursor-pointer text-sm py-4 px-8 border-[0.063rem] border-black trasition-all duration-500 hover:text-white hover:bg-gray-800">
             Explore Jobs
-          </button>
+          </button> */}
+          <Button size="medium" className="w-[9rem.1] bg-transparent py-4 border-[0.063rem] text-black border-black trasition-all duration-500 hover:text-white hover:bg-gray-800">
+            Explore Jobs
+          </Button>
         </div>
       </div>
       <Contact />

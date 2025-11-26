@@ -1,6 +1,7 @@
 import stripeLogo from "../assets/stripe_logo.png";
 import razorpay from "../assets/razorpay_logo.png";
 import { Link } from "react-router-dom";
+import Button from "./Button";
 
 const PaymentMethods = () => {
   return (
@@ -21,11 +22,9 @@ const PaymentMethods = () => {
           </p>
         </div>
       </div>
-      <div className="w-full mt-8 text-end">
+      <div className="w-full mt-5 text-end">
         <Link to="/orders">
-          <button className="px-16 py-3 text-sm cursor-pointer text-white bg-black active:bg-gray-800">
-            PLACE ORDER
-          </button>
+          <Button type="primary" size="large" className="px-16 text-sm active:bg-gray-800 rounded-none">PLACE ORDER</Button>
         </Link>
       </div>
     </div>

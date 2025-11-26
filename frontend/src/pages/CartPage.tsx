@@ -4,9 +4,10 @@ import Container from "../Container";
 import binIcon from "../assets/bin_icon.png";
 import CartTotal from "../components/CartTotal";
 import { toast } from "react-toastify";
+import Input from "../components/Input";
 
 const CartPage = () => {
-  const {  cartItems, setCartItems } = useGlobalContext();
+  const { cartItems, setCartItems } = useGlobalContext();
 
   const deleteItemFromCart = async (productId: string) => {
     toast.success("Product deleted successfully");
@@ -42,11 +43,12 @@ const CartPage = () => {
                     </div>
                   </div>
                 </div>
-                <input
-                  onChange={(e) => e.target.value}
-                  type="number"
-                  className="border border-gray-200 p-1 max-w-10 sm:max-w-20 sm:px-2"
+                <Input
+                  htmlType= "number"
+                  size="small"
                   value={item.quantity}
+                  onChange={(e) => e.target.value}
+                  inputClassName=""
                 />
                 <img
                   src={binIcon}

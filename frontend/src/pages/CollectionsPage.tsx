@@ -5,6 +5,9 @@ import Title from "../components/Title";
 import { Products } from "../../GlobalContext";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Button from "../components/Button";
+import Input from "../components/Input";
+import LoadingSpinner from "../components/LoadingSpinner";
 type Category =
   | "Men"
   | "Women"
@@ -16,7 +19,7 @@ type Category =
 const CollectionsPage = () => {
   const [products, setProducts] = useState<Products[]>([]);
 
-  const { isSearchBarOpen, setIsSearchBarOpen } = useGlobalContext();
+  const { isSearchBarOpen, setIsSearchBarOpen, loading } = useGlobalContext();
   const [checkedBox, setCheckedBox] = useState<Record<Category, boolean>>({
     Men: false,
     Women: false,
@@ -169,21 +172,34 @@ const CollectionsPage = () => {
 
     if (!isAnyCategoryChecked) return true;
 
-    return checkedBox[product.category as Category] || checkedBox[product.subCategory as Category];
+    return (
+      checkedBox[product.category as Category] ||
+      checkedBox[product.subCategory as Category]
+    );
   });
-
+  const checkboxItems: Category[] = [
+    "Men",
+    "Women",
+    "Kids",
+    "Topwear",
+    "Bottomwear",
+    "Winterwear",
+  ];
   return (
     <Container>
       {isSearchBarOpen && (
         <div className="flex items-center justify-center border-t-[0.063rem] border-gray-200 border-b-gray-200 bg-gray-50">
           <div className="w-3/4  flex items-center justify-between px-5 py-2 mx-3 my-5 sm:w-1/2 border border-gray-400 rounded-full">
-            <input
-              type="text"
-              className="text-sm bg-inherit outline-none z-50"
-              placeholder="Search..."
+            <Input
+              htmlType="text"
+              size="large"
               value={searchInput}
+              inputClassName="text-sm bg-inherit border-0 outline-none text0gray-200 z-50"
+              placeholder="Search..."
               onChange={(e) => setSearchInput(e.target.value)}
+              required
             />
+
             <img src="/images/search.png" className="w-4" alt="search icon" />
           </div>
           <img
@@ -209,74 +225,36 @@ const CollectionsPage = () => {
           <div className="hidden sm:block border pl-5 py-3 mt-6 border-gray-300">
             <p className="font-medium mb-3 text-sm">CATEGORIES</p>
             <div className="flex flex-col gap-2 text-gray-700 text-sm font-light">
-              <label htmlFor="" className="gap-2 flex cursor-pointer">
-                <input
-                  type="checkbox"
-                  className="w-3"
-                  name="Men"
-                  checked={checkedBox.Men}
+              {checkboxItems.slice(0, 3).map((checkboxItem) => (
+                <Input
+                  key={checkboxItem}
+                  htmlType="checkbox"
+                  name={checkboxItem}
+                  size="tiny"
                   onChange={toggleCheckbox}
+                  checked={checkedBox[checkboxItem]}
+                  label={checkboxItem}
                 />
-                Men
-              </label>
-              <label htmlFor="" className="gap-2 flex cursor-pointer">
-                <input
-                  type="checkbox"
-                  className="w-3"
-                  name="Women"
-                  onChange={toggleCheckbox}
-                  checked={checkedBox.Women}
-                />
-                Women
-              </label>
-              <label htmlFor="" className="gap-2 flex cursor-pointer">
-                <input
-                  type="checkbox"
-                  className="w-3"
-                  name="Kids"
-                  onChange={toggleCheckbox}
-                  checked={checkedBox.Kids}
-                />
-                Kids
-              </label>
+              ))}
             </div>
           </div>
           <div className="hidden sm:block gap-2 border pl-5 py-3 my-5 mt-6 border-gray-300 text-sm">
             <p className="font-medium mb-3 text-sm">TYPES</p>
             <div className="flex flex-col gap-2 text-gray-700 text-sm font-light">
-              <label htmlFor="" className="gap-2 flex cursor-pointer">
-                <input
-                  type="checkbox"
-                  className="w-3"
-                  name="Topwear"
+              {checkboxItems.slice(3).map((checkboxItem) => (
+                <Input
+                  key={checkboxItem}
+                  htmlType="checkbox"
+                  name={checkboxItem}
+                  size="tiny"
                   onChange={toggleCheckbox}
-                  checked={checkedBox.Topwear}
+                  checked={checkedBox[checkboxItem]}
+                  label={checkboxItem}
                 />
-                Topwear
-              </label>
-              <label htmlFor="" className="gap-2 flex cursor-pointer">
-                <input
-                  type="checkbox"
-                  className="w-3"
-                  name="Bottomwear"
-                  onChange={toggleCheckbox}
-                  checked={checkedBox.Bottomwear}
-                />
-                Bottomwear
-              </label>
-              <label htmlFor="" className="gap-2 flex cursor-pointer">
-                <input
-                  type="checkbox"
-                  className="w-3"
-                  name="Winterwear"
-                  onChange={toggleCheckbox}
-                  checked={checkedBox.Winterwear}
-                />
-                Winterwear
-              </label>
+              ))}
             </div>
           </div>
-          <button
+          <Button
             onClick={() => {
               setCheckedBox({
                 Men: false,
@@ -287,10 +265,12 @@ const CollectionsPage = () => {
                 Winterwear: false,
               });
             }}
-            className="hidden sm:block mt-1 rounded text-white cursor-pointer bg-black px-4 py-2 hover:bg-gray-900"
+            type="primary"
+            size="small"
+            className="hidden sm:block mt-1 rounded px-4"
           >
             Clear Filters
-          </button>
+          </Button>
         </div>
         <div>
           <div className="flex justify-between text-base mb-2 sm:text-2xl">
@@ -318,27 +298,32 @@ const CollectionsPage = () => {
               </option>
             </select>
           </div>
-          <div className="grid grid-cols-2 gap-4 gap-y-6 md:grid-cols-3 lg:grid-cols-4">
-            {filteredProducts.map((product) => {
-              return (
-                <Link to={`/product/${product._id}`} key={product._id}>
-                  <div className="flex flex-col cursor-pointer overflow-hidden">
-                    <img
-                      src={product.images[0]}
-                      className="tranition ease-in-out hover:scale-110"
-                      alt="product"
-                    />
-                    <p className="text-sm pt-3 pb-1 text-[#374151]">
-                      {product.name}
-                    </p>
-                    <p className="text-sm font-medium text-[#374151]">
-                      ${product.price.toFixed(2)}
-                    </p>
-                  </div>
-                </Link>
-              );
-            })}
-          </div>
+
+          {loading ? (
+            <LoadingSpinner />
+          ) : (
+            <div className="grid grid-cols-2 gap-4 gap-y-6 md:grid-cols-3 lg:grid-cols-4">
+              {filteredProducts.map((product) => {
+                return (
+                  <Link to={`/product/${product._id}`} key={product._id}>
+                    <div className="flex flex-col cursor-pointer overflow-hidden">
+                      <img
+                        src={product.images[0]}
+                        className="tranition ease-in-out hover:scale-110"
+                        alt="product"
+                      />
+                      <p className="text-sm pt-3 pb-1 text-[#374151]">
+                        {product.name}
+                      </p>
+                      <p className="text-sm font-medium text-[#374151]">
+                        ${product.price.toFixed(2)}
+                      </p>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          )}
         </div>
       </div>
     </Container>

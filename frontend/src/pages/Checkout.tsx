@@ -3,9 +3,90 @@ import { shippingFee } from "../components/constants";
 import Title from "../components/Title";
 import Container from "../Container";
 import PaymentMethods from "../components/PaymentMethods";
+import Input from "../components/Input";
+import { useState } from "react";
+import { cn } from "@sglara/cn";
+
+interface DeliveryField {
+  placeholder: string;
+  fieldName: keyof DeliveryData;
+  isFullWidth: boolean;
+  isRequired?: boolean;
+}
+interface DeliveryData {
+  firstName: string;
+  lastName: string;
+  emailAddress: string;
+  street: string;
+  city: string;
+  state: string;
+  zipCode: string;
+  country: string;
+  mobile: string;
+}
+const deliveryFields: DeliveryField[] = [
+  {
+    placeholder: "First Name",
+    fieldName: "firstName",
+    isFullWidth: false,
+    isRequired: true,
+  },
+  {
+    placeholder: "Last Name",
+    fieldName: "lastName",
+    isFullWidth: false,
+  },
+  {
+    placeholder: "Email Address",
+    fieldName: "emailAddress",
+    isFullWidth: true,
+  },
+  {
+    placeholder: "Street",
+    fieldName: "street",
+    isFullWidth: true,
+  },
+  {
+    placeholder: "City",
+    fieldName: "city",
+    isFullWidth: false,
+  },
+  {
+    placeholder: "State",
+    fieldName: "state",
+    isFullWidth: false,
+  },
+  {
+    placeholder: "Zip Code",
+    fieldName: "zipCode",
+    isFullWidth: false,
+  },
+  {
+    placeholder: "Country",
+    fieldName: "country",
+    isFullWidth: false,
+  },
+  {
+    placeholder: "Mobile",
+    fieldName: "mobile",
+    isFullWidth: true,
+  },
+];
 
 const Checkout = () => {
   const { subTotal } = useGlobalContext();
+
+  const [formData, setFormData] = useState<DeliveryData>({
+    firstName: "",
+    lastName: "",
+    emailAddress: "",
+    street: "",
+    city: "",
+    state: "",
+    zipCode: "",
+    country: "",
+    mobile: "",
+  });
 
   return (
     <Container>
@@ -17,58 +98,29 @@ const Checkout = () => {
           <div className="my-3 text-xl sm:text-2xl">
             <Title text1="DELIVERY" text2="INFORMATION" />
           </div>
-          <div className="flex gap-3">
-            <input
-              type="text"
-              className="w-full px-4 py-2 rounded border border-gray-300 "
-              placeholder="First Name"
-            />
-
-            <input
-              type="text"
-              className="w-full px-4 py-2 rounded border border-gray-300 "
-              placeholder="Last Name"
-            />
+          <div className="flex gap-3 w-full flex-wrap">
+            {deliveryFields.map((deliveryField) => (
+              <Input
+                key={deliveryField.fieldName}
+                value={formData[deliveryField.fieldName]}
+                size="medium"
+                htmlType="text"
+                required={deliveryField.isRequired}
+                inputClassName="w-full px-4 border-gray-300 rounded mb-1"
+                wrapperClassName={cn({
+                  "w-full": deliveryField.isFullWidth,
+                  "w-[calc(50%-0.375rem)]": !deliveryField.isFullWidth,
+                })}
+                placeholder={deliveryField.placeholder}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    [deliveryField.fieldName]: e.target.value,
+                  })
+                }
+              />
+            ))}
           </div>
-          <input
-            type="email"
-            className="w-full px-4 py-2 rounded border border-gray-300 "
-            placeholder="Email Address"
-          />
-          <input
-            type="text"
-            className="w-full px-4 py-2 rounded border border-gray-300 "
-            placeholder="Street"
-          />
-          <div className="flex gap-3">
-            <input
-              type="text"
-              className="w-full px-4 py-2 rounded border border-gray-300 "
-              placeholder="City"
-            />
-            <input
-              type="text"
-              className="w-full px-4 py-2 rounded border border-gray-300 "
-              placeholder="State"
-            />
-          </div>
-          <div className="flex gap-3">
-            <input
-              type="text"
-              className="w-full px-4 py-2 rounded border border-gray-300 "
-              placeholder="Zip Code"
-            />
-            <input
-              type="text"
-              className="w-full px-4 py-2 rounded border border-gray-300 "
-              placeholder="Country"
-            />
-          </div>
-          <input
-            type="number"
-            className="w-full px-4 py-2 rounded border border-gray-300 "
-            placeholder="Mobile"
-          />
         </div>
         <div className="mt-8">
           <div className="min-w-70 mt-8">

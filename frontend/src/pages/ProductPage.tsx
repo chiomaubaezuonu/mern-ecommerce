@@ -74,37 +74,6 @@ const ProductPage = () => {
     }
   };
 
-  //    const addToCart = (productId: string) => {
-  //   if (!selectedSize) {
-  //     toast.warning("Please Select a Size");
-  //     return;
-  //   }
-
-  //   // ✅ Check the CART, not the PRODUCTS list
-  //   const existingItem = cartItems.find(
-  //     (item) => item._id === productId && item.size === selectedSize
-  //   );
-
-  //   if (existingItem) {
-  //     // ✅ Update quantity
-  //     setCartItems((prevItems) =>
-  //       prevItems.map((item) =>
-  //         item._id === productId && item.size === selectedSize
-  //           ? { ...item, quantity: item.quantity + 1 }
-  //           : item
-  //       )
-  //     );
-  //     toast.info("Product quantity updated");
-  //   } else if (product) {
-  //     // ✅ Add new item
-  //     setCartItems((prevItems) => [
-  //       ...prevItems,
-  //       { ...product, quantity: 1, size: selectedSize },
-  //     ]);
-  //     toast.success("Product added to cart");
-  //   }
-  // };
-
   return (
     <Container>
       <ToastContainer
@@ -163,7 +132,6 @@ const ProductPage = () => {
                     <Button
                       key={size}
                       onClick={() => setSelectedSize(size)}
-                      type="transparent"
                       size="tiny"
                       className={`${
                         selectedSize === size

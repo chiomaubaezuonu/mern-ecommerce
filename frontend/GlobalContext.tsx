@@ -39,9 +39,11 @@ interface ContextType {
   setSubTotal: React.Dispatch<React.SetStateAction<number>>;
   isUserDetailOpen: boolean;
   setIsUserDetailOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  isPasswordHidden: Boolean;
+  isPasswordHidden: boolean;
   setIsPasswordHidden: React.Dispatch<React.SetStateAction<boolean>>;
-  togglePassword: () => void
+  togglePassword: () => void;
+  loading: boolean;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const GlobalContext = createContext<ContextType | undefined>(undefined);
 
@@ -57,15 +59,22 @@ export const GlobalProvider: FunctionComponent<{ children: ReactNode }> = ({
   const [subTotal, setSubTotal] = useState(0);
   const [isUserDetailOpen, setIsUserDetailOpen] = useState(false);
   const [isPasswordHidden, setIsPasswordHidden] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    API.get("/products")
-      .then((res) => {
+    const fetchedProducts = async () => {
+      setLoading(true);
+      try {
+        const res = await API.get("/products");
         setProducts(res.data);
-      })
-      .catch((err) => console.error(err));
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchedProducts()
   }, []);
-  console.log(products);
 
   useEffect(() => {
     setSubTotal(
@@ -76,10 +85,10 @@ export const GlobalProvider: FunctionComponent<{ children: ReactNode }> = ({
   useEffect(() => {
     localStorage.setItem("cartItems", JSON.stringify(cartItems));
   }, [cartItems]);
-  
+
   const togglePassword = () => {
-    setIsPasswordHidden(!isPasswordHidden)
-  }
+    setIsPasswordHidden(!isPasswordHidden);
+  };
 
   return (
     <GlobalContext.Provider
@@ -98,7 +107,9 @@ export const GlobalProvider: FunctionComponent<{ children: ReactNode }> = ({
         setIsUserDetailOpen,
         isPasswordHidden,
         setIsPasswordHidden,
-        togglePassword
+        togglePassword,
+        loading,
+        setLoading,
       }}
     >
       {children}

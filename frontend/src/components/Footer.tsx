@@ -1,6 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import Container from "../Container";
 import Button from "./Button";
+import Input from "./Input";
 
 const Footer = () => {
   const location = useLocation();
@@ -26,10 +27,19 @@ const Footer = () => {
               className="w-full pl-3 sm:flex-1 outline-none required:"
               placeholder="hello@gmail.com"
             />
-            {/* <button className="uppercase px-10 py-4 bg-black text-white text-xs">
+            {/* <Input
+              size="large"
+              htmlType="text"
+              className="pl-3 sm:flex-1 outline-none required:"
+              placeholder="hello@gmail.com"
+            /> */}
+            <Button
+              type="primary"
+              size="small"
+              className="uppercase px-10 py-4 text-xs"
+            >
               Subscribe
-            </button> */}
-            <Button className="uppercase px-10 py-4 text-xs">Subscribe</Button>
+            </Button>
           </form>
         </div>
       )}

@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { shippingFee } from "./constants";
 import Title from "./Title";
 import { useGlobalContext } from "../../GlobalContext";
+import Button from "./Button";
 
 const CartTotal = () => {
   const { subTotal } = useGlobalContext()
@@ -28,9 +29,7 @@ const CartTotal = () => {
             <p>${subTotal ? (subTotal + shippingFee) .toFixed(2) : 0}</p>
           </div>
           <Link to="/checkout" className="w-full text-end">
-            <button className="py-3 cursor-pointer px-8 text-sm my-8 bg-black text-white active:bg-gray-700">
-              PROCEED TO CHECKOUT
-            </button>
+            <Button type="primary" size="large" className="py-3 rounded-none px-8 text-sm my-8">PROCEED TO CHECKOUT</Button>
           </Link>
         </div>
       </div>

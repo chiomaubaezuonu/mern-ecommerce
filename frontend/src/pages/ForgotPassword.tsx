@@ -1,9 +1,9 @@
-
 import Container from "../Container";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import API from "../utils/Api";
 import Button from "../components/Button";
+import Input from "../components/Input";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
@@ -15,14 +15,11 @@ const ForgotPassword = () => {
     setIsLoading(true);
 
     try {
-      const res = await API.post(
-        "/api/users/forgot-password",
-        { email }
-      );
+      const res = await API.post("/api/users/forgot-password", { email });
       setMessage(res.data.message);
       toast.success("Reset link has been sent to your email");
     } catch (error: any) {
-       setMessage(error.response?.data?.message || "Something went wrong");
+      setMessage(error.response?.data?.message || "Something went wrong");
       toast.error("Somethingwent wrong");
     } finally {
       setIsLoading(false);
@@ -42,14 +39,17 @@ const ForgotPassword = () => {
           <label className="text-center font-bold" htmlFor="">
             Email address
           </label>
-          <input
-            type="email"
+          <Input
+            htmlType="email"
             placeholder="Enter email"
-            className="font-bold border border-gray-300 py-2 px-4 outline-0 rounded"
+            size="large"
             onChange={(e) => setEmail(e.target.value)}
+            className="py-2 px-4 placeholder:text-amber-300"
             required
           />
-          <Button loading={isLoading} buttonType="submit" size="large">{isLoading ? "Sending...": "SEND"}</Button>
+          <Button loading={isLoading} buttonType="submit" size="large">
+            {isLoading ? "Sending..." : "SEND"}
+          </Button>
         </form>
         {message && (
           <p className="mt-4 text-center text-sm text-gray-700">{message}</p>

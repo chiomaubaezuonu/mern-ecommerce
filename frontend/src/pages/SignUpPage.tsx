@@ -5,6 +5,7 @@ import API from "../utils/Api";
 import { Link, useNavigate } from "react-router-dom";
 import { useGlobalContext } from "../../GlobalContext";
 import Button from "../components/Button";
+import Input from "../components/Input";
 
 const SignUpPage = () => {
   const { togglePassword, isPasswordHidden } = useGlobalContext();
@@ -70,6 +71,7 @@ const SignUpPage = () => {
       setIsLoading(false);
     }
   };
+  const placeholders = ["John Doe", "hello@gmail.com", "password"];
 
   return (
     <Container>
@@ -82,38 +84,32 @@ const SignUpPage = () => {
             <p className="text-3xl prata-regular">Sign Up</p>
             <p className="w-8 sm:w-12 h-[1px] sm:h-[2px] bg-gray-700"></p>
           </div>
-          <input
-            type="text"
-            className="border-[0.063rem] px-3 py-2 border-gray-800 w-full"
-            placeholder="John Doe"
-            onChange={inputChange}
-            name="name"
-          />
-          <input
-            type="text"
-            className="border-[0.063rem] px-3 py-2 border-gray-800 w-full"
-            placeholder="hello@gmail.com"
-            onChange={inputChange}
-            name="email"
-          />
-          <div className="w-full relative">
-            <input
-              type={isPasswordHidden ? "password" : "text"}
-              className="border-[0.063rem] px-3 py-2 border-gray-800 w-full"
-              placeholder="Password"
-              onChange={inputChange}
-              name="password"
-            />
-            <img
-              onClick={togglePassword}
-              src="/images/eye.png"
-              className="absolute top-2.5 right-2 cursor-pointer z-20"
-              alt="hide-password-icon"
-            />
-            {isPasswordHidden && (
-              <p className="text-3xl absolute top-1 right-3.5">/</p>
-            )}
-          </div>
+          {placeholders.map((placeholder) => (
+            <div className="w-full relative">
+              <Input
+                htmlType="text"
+                size="medium"
+                placeholder={placeholder}
+                name={name}
+                onChange={inputChange}
+              />
+
+              {placeholder === "password" && (
+                <div>
+                  <img
+                    onClick={togglePassword}
+                    src="/images/eye.png"
+                    className="absolute top-2.5 right-2 cursor-pointer z-20"
+                    alt="hide-password-icon"
+                  />
+                  {isPasswordHidden && (
+                    <p className="text-3xl absolute top-1 right-3.5">/</p>
+                  )}
+                </div>
+              )}
+            </div>
+          ))}
+
           <div className="flex justify-between text-sm w-full">
             <Link to="/forgot-password">
               <p className="cursor-pointer hover:text-blue-600">
@@ -145,31 +141,31 @@ const SignUpPage = () => {
             <p className="text-3xl prata-regular cursor-pointer">Login</p>
             <p className="w-8 h-[1px] sm:h-[2px] bg-gray-700"></p>
           </div>
-          <input
-            type="text"
-            className="border-[0.063rem] px-3 py-2 border-gray-800 w-full"
-            placeholder="hello@gmail.com"
-            onChange={inputChange}
-            name="email"
-          />
-          <div className="w-full relative">
-            <input
-              type={isPasswordHidden ? "password" : "text"}
-              className="border-[0.063rem] px-3 py-2 border-gray-800 w-full"
-              placeholder="Password"
-              onChange={inputChange}
-              name="password"
-            />
-            <img
-              onClick={togglePassword}
-              src="/images/eye.png"
-              className="absolute top-2.5 right-2 cursor-pointer z-20"
-              alt="hide-password-icon"
-            />
-            {isPasswordHidden && (
-              <p className="text-3xl absolute top-1 right-3.5">/</p>
-            )}
-          </div>
+
+          {placeholders.slice(1).map((placeholder) => (
+            <div className="w-full relative">
+              <Input
+                htmlType="text"
+                size="medium"
+                placeholder={placeholder}
+                name={name}
+                onChange={inputChange}
+              />
+              {placeholder === "password" && (
+                <div>
+                  <img
+                    onClick={togglePassword}
+                    src="/images/eye.png"
+                    className="absolute top-2.5 right-2 cursor-pointer z-20"
+                    alt="hide-password-icon"
+                  />
+                  {isPasswordHidden && (
+                    <p className="text-3xl absolute top-1 right-3.5">/</p>
+                  )}
+                </div>
+              )}
+            </div>
+          ))}
 
           <div className="flex justify-between text-sm w-full">
             <p className="cursor-pointer hover:text-blue-600">
@@ -179,7 +175,15 @@ const SignUpPage = () => {
               Create a new account
             </p>
           </div>
-          <Button loading={isLoading} size="small" buttonType="submit"  className="mt-4 font-light" type="primary">Sign In</Button>
+          <Button
+            loading={isLoading}
+            size="small"
+            buttonType="submit"
+            className="mt-4 font-light"
+            type="primary"
+          >
+            Sign In
+          </Button>
         </form>
       )}
     </Container>

@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import Title from "../components/Title";
 import { useGlobalContext } from "../../GlobalContext";
 import { useEffect } from "react";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 export interface Products {
   _id: string;
@@ -17,11 +18,10 @@ export interface Products {
   bestSeller: boolean;
 }
 const Home = () => {
-  const { products, setIsUserDetailOpen } = useGlobalContext();
+  const { products, setIsUserDetailOpen, loading } = useGlobalContext();
   useEffect(() => {
     setIsUserDetailOpen(false);
   }, []);
-  console.log(products)
   return (
     <Container>
       <div className="flex flex-col sm:flex-row border border-gray-400">
@@ -68,25 +68,31 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 gap-y-6">
-        {products.slice(0, 10).map((product: Products) => {
-          return (
-            <Link
-              to={`/product/${product._id}`}
-              key={product._id}
-              className="flex overflow-hidden flex-col justify-between h-full text-gray-700 cursor-pointer"
-            >
-              <img
-                className="hover:scale-110 transition ease-in-out"
-                src={product?.images[0]}
-                alt={`${product.name}-${product.images}`}
-              />
-              <p className="text-sm pb-1 pt-3">{product.name}</p>
-              <p className="text-sm font-medium">${product.price.toFixed(2)}</p>
-            </Link>
-          );
-        })}
-      </div>
+      {loading ? (
+        <LoadingSpinner />
+      ) : (
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 gap-y-6">
+          {products.slice(0, 10).map((product: Products) => {
+            return (
+              <Link
+                to={`/product/${product._id}`}
+                key={product._id}
+                className="flex overflow-hidden flex-col justify-between h-full text-gray-700 cursor-pointer"
+              >
+                <img
+                  className="hover:scale-110 transition ease-in-out"
+                  src={product?.images[0]}
+                  alt={`${product.name}-${product.images}`}
+                />
+                <p className="text-sm pb-1 pt-3">{product.name}</p>
+                <p className="text-sm font-medium">
+                  ${product.price.toFixed(2)}
+                </p>
+              </Link>
+            );
+          })}
+        </div>
+      )}
       <div className="my-10">
         <div className="py-8 text-center text-3xl">
           <Title text1="Best" text2="sellers" />
@@ -95,28 +101,32 @@ const Home = () => {
             have won over shoppers with their quality, style, and value.
           </p>
         </div>
-        <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-y-6">
-          {products
-            .filter((product) => product.bestSeller === true)
-            .map((product) => (
-              <Link
-                to={`/product/${product._id}`}
-                key={product._id}
-                className="flex overflow-hidden flex-col justify-between h-full text-gray-700 cursor-pointer"
-              >
-                <img
-                  className="hover:scale-110 transition ease-in-out"
-                  src={product.images[0]}
-                  alt={`${product.name}-${product.images}`}
-                />
-                <p className="text-sm pb-1 pt-3">{product.name}</p>
-                <p className="text-sm font-medium">
-                  ${product.price.toFixed(2)}
-                </p>
-              </Link>
-            ))
-            .splice(0, 5)}
-        </div>
+        {loading ? (
+          <LoadingSpinner />
+        ) : (
+          <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-y-6">
+            {products
+              .filter((product) => product.bestSeller === true)
+              .map((product) => (
+                <Link
+                  to={`/product/${product._id}`}
+                  key={product._id}
+                  className="flex overflow-hidden flex-col justify-between h-full text-gray-700 cursor-pointer"
+                >
+                  <img
+                    className="hover:scale-110 transition ease-in-out"
+                    src={product.images[0]}
+                    alt={`${product.name}-${product.images}`}
+                  />
+                  <p className="text-sm pb-1 pt-3">{product.name}</p>
+                  <p className="text-sm font-medium">
+                    ${product.price.toFixed(2)}
+                  </p>
+                </Link>
+              ))
+              .splice(0, 5)}
+          </div>
+        )}
       </div>
       <div className="flex flex-col py-8 justify-around gap-12 text-xs text-gray-700 text-center sm:text-sm md:text-base sm:flex-row sm:gap-2 ">
         <div className="">
